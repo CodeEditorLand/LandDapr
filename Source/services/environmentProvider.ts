@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as os from 'os';
+import * as os from "os";
 
 export interface EnvironmentProvider {
-    readonly isWindows: boolean;
+	readonly isWindows: boolean;
 }
 
 export default class NodeEnvironmentProvider implements EnvironmentProvider {
-    get isWindows(): boolean {
-        return os.platform() === 'win32';
-    }
+	get isWindows(): boolean {
+		return os.platform() === "win32";
+	}
 }

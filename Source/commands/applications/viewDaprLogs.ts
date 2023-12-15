@@ -13,14 +13,14 @@ const createViewDaprLogsCommand =
 	() =>
 	(
 		context: IActionContext,
-		node: DaprApplicationNode | undefined
+		node: DaprApplicationNode | undefined,
 	): Promise<void> => {
 		if (node === undefined) {
 			throw new Error(
 				localize(
 					"commands.applications.viewDaprLogs.noPaletteSupport",
-					"Viewing Dapr logs requires selecting an application in the Dapr view."
-				)
+					"Viewing Dapr logs requires selecting an application in the Dapr view.",
+				),
 			);
 		}
 

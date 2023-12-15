@@ -4,11 +4,11 @@ import * as vscode from "vscode";
 import { DaprDashboardProvider } from "../services/daprDashboardProvider";
 
 export async function openDaprDashboard(
-	daprDashboardProvider: DaprDashboardProvider
+	daprDashboardProvider: DaprDashboardProvider,
 ): Promise<void> {
 	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 	await vscode.env.openExternal(
-		vscode.Uri.parse(await daprDashboardProvider.startDashboard())
+		vscode.Uri.parse(await daprDashboardProvider.startDashboard()),
 	);
 }
 

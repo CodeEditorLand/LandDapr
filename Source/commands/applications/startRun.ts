@@ -14,7 +14,7 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 export async function startRun(
 	runTemplateFile: string,
-	taskProvider: DaprCommandTaskProvider
+	taskProvider: DaprCommandTaskProvider,
 ): Promise<void> {
 	const taskDefinition: DaprTaskDefinition = {
 		type: "dapr",
@@ -28,16 +28,16 @@ export async function startRun(
 			taskDefinition,
 			vscode.TaskScope.Workspace,
 			runFileName,
-			"Dapr"
-		)
+			"Dapr",
+		),
 	);
 
 	if (!resolvedTask) {
 		throw new Error(
 			localize(
 				"commands.applications.startRun.unresolvedTask",
-				"Unable to resolve a task for the dapr run."
-			)
+				"Unable to resolve a task for the dapr run.",
+			),
 		);
 	}
 
@@ -53,8 +53,8 @@ const createStartRunCommand =
 			throw new Error(
 				localize(
 					"commands.applications.startRun.noWorkspaceFolder",
-					"Starting a Dapr run requires an open workspace."
-				)
+					"Starting a Dapr run requires an open workspace.",
+				),
 			);
 		}
 

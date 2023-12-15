@@ -97,7 +97,7 @@ export const config: webpack.Configuration = {
 						}
 					}
 				}
-			}
+			},
 		),
 	],
 	resolve: {
@@ -117,7 +117,7 @@ export const config: webpack.Configuration = {
 			// >  @ ./src/scaffolding/templateScaffolder.ts 15:19-40
 			// >  @ ./src/extension.ts
 			//
-			"handlebars": "handlebars/dist/handlebars.js",
+			handlebars: "handlebars/dist/handlebars.js",
 		},
 		extensions: [".ts", ".js"],
 	},

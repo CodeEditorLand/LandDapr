@@ -9,8 +9,8 @@ export interface PseudoterminalWriter {
 }
 
 const fonts: { [key in WriterFont]: string } = {
-	"default": "0m",
-	"bold": "0;1m",
+	default: "0m",
+	bold: "0;1m",
 };
 
 export default class TaskPseudoterminalWriter implements PseudoterminalWriter {

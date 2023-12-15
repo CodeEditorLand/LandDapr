@@ -14,7 +14,7 @@ export default class HelpTreeDataProvider
 	onDidChangeTreeData?: vscode.Event<TreeNode>;
 
 	getTreeItem(
-		element: TreeNode
+		element: TreeNode,
 	): vscode.TreeItem | Thenable<vscode.TreeItem> {
 		return element.getTreeItem();
 	}

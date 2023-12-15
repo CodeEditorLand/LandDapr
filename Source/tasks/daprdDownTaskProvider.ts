@@ -19,7 +19,7 @@ export interface DaprdDownTaskDefinition extends TaskDefinition {
 export default class DaprdDownTaskProvider extends CustomExecutionTaskProvider {
 	constructor(
 		daprApplicationProvider: DaprApplicationProvider,
-		telemetryProvider: TelemetryProvider
+		telemetryProvider: TelemetryProvider,
 	) {
 		super(
 			(definition, writer) => {
@@ -33,36 +33,36 @@ export default class DaprdDownTaskProvider extends CustomExecutionTaskProvider {
 							throw new Error(
 								localize(
 									"tasks.daprdDownTaskProvider.appIdError",
-									"The 'appId' property must be set."
-								)
+									"The 'appId' property must be set.",
+								),
 							);
 						}
 
 						const applications = await firstValueFrom(
-							daprApplicationProvider.applications
+							daprApplicationProvider.applications,
 						);
 
 						applications
 							.filter(
 								(application) =>
 									application.appId ===
-									daprdDownDefinition.appId
+									daprdDownDefinition.appId,
 							)
 							.forEach((application) =>
-								process.kill(application.pid, "SIGKILL")
+								process.kill(application.pid, "SIGKILL"),
 							);
 
 						writer.writeLine(
 							localize(
 								"tasks.daprdDownTaskProvider.shutdownMessage",
-								"Shutting down daprd..."
-							)
+								"Shutting down daprd...",
+							),
 						);
-					}
+					},
 				);
 			},
 			/* isBackgroundTask: */ false,
-			/* problemMatchers: */ []
+			/* problemMatchers: */ [],
 		);
 	}
 }

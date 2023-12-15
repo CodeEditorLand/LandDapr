@@ -2,7 +2,7 @@
   "name": "vscode-dapr",
   "displayName": "Dapr",
   "version": "0.0.1",
-  "private": "false",
+  "private": false,
   "description": "Makes it easy to run, debug, and interact with Dapr-enabled applications.",
   "homepage": "https://github.com/CodeEditorLand/CodeEditorLand#readme",
   "bugs": {

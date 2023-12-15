@@ -11,7 +11,7 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 export default class ReadDocumentationNode implements TreeNode {
 	getTreeItem(): Promise<vscode.TreeItem> {
 		const treeItem = new vscode.TreeItem(
-			localize("views.readDocumentationNode.label", "Read Documentation")
+			localize("views.readDocumentationNode.label", "Read Documentation"),
 		);
 
 		treeItem.command = {

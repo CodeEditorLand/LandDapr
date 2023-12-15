@@ -19,7 +19,7 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 async function scaffoldDaprComponents(
 	scaffolder: Scaffolder,
-	templateScaffolder: TemplateScaffolder
+	templateScaffolder: TemplateScaffolder,
 ): Promise<void> {
 	const rootWorkspaceFolderPath = (vscode.workspace.workspaceFolders ?? [])[0]
 		?.uri?.fsPath;
@@ -28,8 +28,8 @@ async function scaffoldDaprComponents(
 		throw new Error(
 			localize(
 				"commands.scaffoldDaprTasks.noWorkspaceError",
-				"To scaffold Dapr component files, first open a folder or workspace."
-			)
+				"To scaffold Dapr component files, first open a folder or workspace.",
+			),
 		);
 	}
 
@@ -40,26 +40,25 @@ async function scaffoldDaprComponents(
 	// NOTE: As this command is now secondary (scaffolding now done for the user as part of `dapr init`),
 	//       we'll simply skip upon finding conflicts; there's likely little need to overwrite existing
 	//       components.
-	const onConflict: ConflictHandler = () =>
-		Promise.resolve({ "type": "skip" });
+	const onConflict: ConflictHandler = () => Promise.resolve({ type: "skip" });
 
 	await scaffoldStateStoreComponent(
 		scaffolder,
 		templateScaffolder,
 		componentsPath,
-		onConflict
+		onConflict,
 	);
 	await scaffoldPubSubComponent(
 		scaffolder,
 		templateScaffolder,
 		componentsPath,
-		onConflict
+		onConflict,
 	);
 	await scaffoldZipkinComponent(
 		scaffolder,
 		templateScaffolder,
 		componentsPath,
-		onConflict
+		onConflict,
 	);
 
 	// TODO: Consider UX to prompt the user to update existing tasks' componentsPath property.

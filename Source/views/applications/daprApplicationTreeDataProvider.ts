@@ -30,7 +30,7 @@ export default class DaprApplicationTreeDataProvider
 		private readonly applicationProvider: DaprApplicationProvider,
 		private readonly daprClient: DaprClient,
 		private readonly installationManager: DaprInstallationManager,
-		private readonly ui: UserInput
+		private readonly ui: UserInput,
 	) {
 		super(() => {
 			this.applicationProviderListener.unsubscribe();
@@ -51,7 +51,7 @@ export default class DaprApplicationTreeDataProvider
 	}
 
 	getTreeItem(
-		element: TreeNode
+		element: TreeNode,
 	): vscode.TreeItem | Thenable<vscode.TreeItem> {
 		return element.getTreeItem();
 	}
@@ -67,7 +67,7 @@ export default class DaprApplicationTreeDataProvider
 				await this.ui.executeCommand(
 					"setContext",
 					"vscode-dapr.views.applications.state",
-					"notRunning"
+					"notRunning",
 				);
 			} else {
 				const isInstalled =
@@ -77,13 +77,13 @@ export default class DaprApplicationTreeDataProvider
 					await this.ui.executeCommand(
 						"setContext",
 						"vscode-dapr.views.applications.state",
-						"notInitialized"
+						"notInitialized",
 					);
 				} else {
 					await this.ui.executeCommand(
 						"setContext",
 						"vscode-dapr.views.applications.state",
-						"notInstalled"
+						"notInstalled",
 					);
 				}
 			}
@@ -110,7 +110,7 @@ export default class DaprApplicationTreeDataProvider
 			if (application.runTemplatePath) {
 				// TODO: Grouping needs to be done via <PPID, RunTemplatePath> to allow for multiple runs.
 				const name = path.basename(
-					path.dirname(application.runTemplatePath)
+					path.dirname(application.runTemplatePath),
 				);
 
 				const run = runs[name] ?? {
@@ -137,25 +137,25 @@ export default class DaprApplicationTreeDataProvider
 						name,
 						runs[name].runTemplatePath,
 						runs[name].applications,
-						this.daprClient
-					)
-				)
+						this.daprClient,
+					),
+				),
 			);
 
 			if (individualApps.length > 0) {
 				items.push(
 					DaprRunNode.CreateIndividualApplicationsNode(
 						individualApps,
-						this.daprClient
-					)
+						this.daprClient,
+					),
 				);
 			}
 		} else {
 			items.push(
 				...individualApps.map(
 					(application) =>
-						new DaprApplicationNode(application, this.daprClient)
-				)
+						new DaprApplicationNode(application, this.daprClient),
+				),
 			);
 		}
 

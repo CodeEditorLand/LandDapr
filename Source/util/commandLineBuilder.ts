@@ -21,7 +21,7 @@ export default class CommandLineBuilder {
 	}
 
 	public withArg(
-		arg: string | vscode.ShellQuotedString | undefined
+		arg: string | vscode.ShellQuotedString | undefined,
 	): CommandLineBuilder {
 		if (typeof arg === "string") {
 			if (arg) {
@@ -39,7 +39,7 @@ export default class CommandLineBuilder {
 	}
 
 	public withArgs(
-		args: string | string[] | vscode.ShellQuotedString[] | undefined
+		args: string | string[] | vscode.ShellQuotedString[] | undefined,
 	): CommandLineBuilder {
 		if (typeof args === "string") {
 			for (const arg of args.split(" ")) {
@@ -56,7 +56,7 @@ export default class CommandLineBuilder {
 
 	public withFlagArg(
 		name: string,
-		value: boolean | undefined
+		value: boolean | undefined,
 	): CommandLineBuilder {
 		if (value) {
 			this.withArg(name);
@@ -68,7 +68,7 @@ export default class CommandLineBuilder {
 	public withNamedArg(
 		name: string,
 		value: string | number | boolean | vscode.ShellQuotedString | undefined,
-		options?: { assignValue?: boolean }
+		options?: { assignValue?: boolean },
 	): CommandLineBuilder {
 		if (
 			typeof value === "string" ||
@@ -110,7 +110,7 @@ export default class CommandLineBuilder {
 		name: string,
 		values:
 			| { [key: string]: string | vscode.ShellQuotedString | undefined }
-			| undefined
+			| undefined,
 	): CommandLineBuilder {
 		if (values !== undefined) {
 			for (const key of Object.keys(values)) {
@@ -135,7 +135,7 @@ export default class CommandLineBuilder {
 	public withArrayArgs<T extends { toString(): string }>(
 		name: string,
 		values: T[] | undefined,
-		formatter?: (value: T) => string | vscode.ShellQuotedString
+		formatter?: (value: T) => string | vscode.ShellQuotedString,
 	): CommandLineBuilder {
 		formatter = formatter || ((value: T): string => value.toString());
 

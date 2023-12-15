@@ -16,7 +16,7 @@ export async function invokePost(
 	outputChannel: vscode.OutputChannel,
 	ui: UserInput,
 	workspaceState: vscode.Memento,
-	node: DaprApplicationNode | undefined
+	node: DaprApplicationNode | undefined,
 ): Promise<void> {
 	return invoke(
 		context,
@@ -26,7 +26,7 @@ export async function invokePost(
 		ui,
 		workspaceState,
 		node?.application,
-		/* isPost: */ true
+		/* isPost: */ true,
 	);
 }
 
@@ -36,11 +36,11 @@ const createInvokePostCommand =
 		daprClient: DaprClient,
 		outputChannel: vscode.OutputChannel,
 		ui: UserInput,
-		workspaceState: vscode.Memento
+		workspaceState: vscode.Memento,
 	) =>
 	(
 		context: IActionContext,
-		node: DaprApplicationNode | undefined
+		node: DaprApplicationNode | undefined,
 	): Promise<void> =>
 		invokePost(
 			context,
@@ -49,7 +49,7 @@ const createInvokePostCommand =
 			outputChannel,
 			ui,
 			workspaceState,
-			node
+			node,
 		);
 
 export default createInvokePostCommand;

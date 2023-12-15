@@ -57,29 +57,29 @@ interface DotNetLaunchSettings {
 }
 
 async function getDefaultDotnetPort(
-	folder: vscode.WorkspaceFolder | undefined
+	folder: vscode.WorkspaceFolder | undefined,
 ): Promise<number> {
 	if (folder) {
 		const launchSettingsFiles = await vscode.workspace.findFiles(
 			new vscode.RelativePattern(
 				folder,
-				"**/Properties/launchSettings.json"
-			)
+				"**/Properties/launchSettings.json",
+			),
 		);
 
 		for (const launchSettingsFile of launchSettingsFiles) {
 			const launchSettingsBuffer =
 				await vscode.workspace.fs.readFile(launchSettingsFile);
 			const launchSettingsContents = new TextDecoder("utf-8").decode(
-				launchSettingsBuffer
+				launchSettingsBuffer,
 			);
 			const launchSettingsJson = JSON.parse(
-				launchSettingsContents
+				launchSettingsContents,
 			) as DotNetLaunchSettings;
 
 			if (launchSettingsJson.profiles) {
 				const projectProfile = Object.values(
-					launchSettingsJson.profiles
+					launchSettingsJson.profiles,
 				).find((profile) => profile.commandName === "Project");
 
 				if (projectProfile?.applicationUrl) {
@@ -107,7 +107,7 @@ async function getDefaultDotnetPort(
 
 function getDefaultPort(
 	configuration: DebugConfiguration | undefined,
-	folder: vscode.WorkspaceFolder | undefined
+	folder: vscode.WorkspaceFolder | undefined,
 ): Promise<number> {
 	switch (configuration?.type) {
 		case "coreclr":
@@ -146,7 +146,7 @@ function getDefaultPort(
 
 async function createUniqueName(
 	prefix: string,
-	isUnique: ConflictUniquenessPredicate
+	isUnique: ConflictUniquenessPredicate,
 ): Promise<string> {
 	const nameGenerator = names(prefix, range(1));
 	let name = nameGenerator.next();
@@ -159,8 +159,8 @@ async function createUniqueName(
 		throw new Error(
 			localize(
 				"commands.scaffoldDaprTasks.uniqueNameError",
-				"Unable to generate a unique name."
-			)
+				"Unable to generate a unique name.",
+			),
 		);
 	}
 
@@ -171,7 +171,7 @@ export async function scaffoldDaprTasks(
 	context: IActionContext,
 	scaffolder: Scaffolder,
 	templateScaffolder: TemplateScaffolder,
-	ui: UserInput
+	ui: UserInput,
 ): Promise<void> {
 	const telemetryProperties = context.telemetry
 		.properties as ScaffoldTelemetryProperties;
@@ -183,8 +183,8 @@ export async function scaffoldDaprTasks(
 		throw new Error(
 			localize(
 				"commands.scaffoldDaprTasks.noFolderOrWorkspace",
-				"Open a folder or workspace."
-			)
+				"Open a folder or workspace.",
+			),
 		);
 	}
 
@@ -200,13 +200,13 @@ export async function scaffoldDaprTasks(
 		const overwrite: vscode.MessageItem = {
 			title: localize(
 				"commands.scaffoldDaprTasks.overwriteTask",
-				"Overwrite"
+				"Overwrite",
 			),
 		};
 		const newTask: vscode.MessageItem = {
 			title: localize(
 				"commands.scaffoldDaprTasks.createTask",
-				"Create task"
+				"Create task",
 			),
 		};
 
@@ -214,26 +214,26 @@ export async function scaffoldDaprTasks(
 			localize(
 				"commands.scaffoldDaprTasks.taskExists",
 				"The task '{0}' already exists. Do you want to overwrite it or create a new task?",
-				label
+				label,
 			),
 			{ modal: true },
 			overwrite,
-			newTask
+			newTask,
 		);
 
 		if (result === overwrite) {
-			return { "type": "overwrite" };
+			return { type: "overwrite" };
 		} else {
 			label = await createUniqueName(
 				localize(
 					"commands.scaffoldDaprTasks.taskPrefix",
 					"{0}-",
-					label
+					label,
 				),
-				isUnique
+				isUnique,
 			);
 
-			return { "type": "rename", name: label };
+			return { type: "rename", name: label };
 		}
 	};
 
@@ -243,13 +243,13 @@ export async function scaffoldDaprTasks(
 		const overwrite: vscode.MessageItem = {
 			title: localize(
 				"commands.scaffoldDaprTasks.overwriteConfiguration",
-				"Overwrite"
+				"Overwrite",
 			),
 		};
 		const newConfiguration: vscode.MessageItem = {
 			title: localize(
 				"commands.scaffoldDaprTasks.createConfiguration",
-				"Create configuration"
+				"Create configuration",
 			),
 		};
 
@@ -257,52 +257,52 @@ export async function scaffoldDaprTasks(
 			localize(
 				"commands.scaffoldDaprTasks.configurationExists",
 				"The configuration '{0}' already exists. Do you want to overwrite it or create a new configuration?",
-				name
+				name,
 			),
 			{ modal: true },
 			overwrite,
-			newConfiguration
+			newConfiguration,
 		);
 
 		if (result === overwrite) {
-			return { "type": "overwrite" };
+			return { type: "overwrite" };
 		} else {
 			name = await createUniqueName(
 				localize(
 					"commands.scaffoldDaprTasks.configurationPrefix",
 					"{0} - ",
-					name
+					name,
 				),
-				isUnique
+				isUnique,
 			);
 
-			return { "type": "rename", name };
+			return { type: "rename", name };
 		}
 	};
 
 	if (
 		await vscode.workspace.fs.stat(vscode.Uri.file(runFilePath)).then(
 			() => true,
-			() => false
+			() => false,
 		)
 	) {
 		const runFileTask: vscode.MessageItem = {
 			title: localize(
 				"commands.scaffoldDaprTasks.useExistingDaprRunFile",
-				"Use Run File"
+				"Use Run File",
 			),
 		};
 		const defaultTask: vscode.MessageItem = {
 			title: localize(
 				"commands.scaffoldDaprTasks.notUseExistingDaprRunFile",
-				"Run Dapr Directly"
+				"Run Dapr Directly",
 			),
 		};
 		const result = await ui.showWarningMessage(
 			"You already have a Dapr run file. Would you like to use it in the scaffolded task?",
 			{ modal: true },
 			runFileTask,
-			defaultTask
+			defaultTask,
 		);
 
 		if (result === runFileTask) {
@@ -317,7 +317,7 @@ export async function scaffoldDaprTasks(
 					};
 					return daprUpTask;
 				},
-				onTaskConflict
+				onTaskConflict,
 			);
 
 			await scaffolder.scaffoldConfiguration(
@@ -333,13 +333,13 @@ export async function scaffoldDaprTasks(
 					};
 					return daprDebugConfiguration;
 				},
-				onConfigConflict
+				onConfigConflict,
 			);
 			return;
 		}
 	} else {
 		const configurationStep: WizardStep<ScaffoldWizardContext> = async (
-			wizardContext
+			wizardContext,
 		) => {
 			const folder = vscode.workspace.workspaceFolders?.[0];
 
@@ -349,8 +349,8 @@ export async function scaffoldDaprTasks(
 				throw new Error(
 					localize(
 						"commands.scaffoldDaprTasks.noFolderOrWorkspace",
-						"Open a folder or workspace."
-					)
+						"Open a folder or workspace.",
+					),
 				);
 			}
 
@@ -362,8 +362,8 @@ export async function scaffoldDaprTasks(
 				throw new Error(
 					localize(
 						"commands.scaffoldDaprTasks.noConfigurationsMessage",
-						"Open a folder or workspace with a folder-scoped debug launch configuration."
-					)
+						"Open a folder or workspace with a folder-scoped debug launch configuration.",
+					),
 				);
 			}
 
@@ -371,7 +371,7 @@ export async function scaffoldDaprTasks(
 				(configuration) => ({
 					label: configuration.name,
 					configuration,
-				})
+				}),
 			);
 
 			telemetryProperties.cancelStep = "configuration";
@@ -381,9 +381,9 @@ export async function scaffoldDaprTasks(
 				{
 					placeHolder: localize(
 						"commands.scaffoldDaprTasks.configurationPlaceholder",
-						"Select the configuration used to debug the application"
+						"Select the configuration used to debug the application",
 					),
-				}
+				},
 			);
 
 			return {
@@ -394,7 +394,7 @@ export async function scaffoldDaprTasks(
 		};
 
 		const appIdStep: WizardStep<ScaffoldWizardContext> = async (
-			wizardContext
+			wizardContext,
 		) => {
 			telemetryProperties.cancelStep = "appId";
 
@@ -404,15 +404,15 @@ export async function scaffoldDaprTasks(
 				appId: await ui.showInputBox({
 					prompt: localize(
 						"commands.scaffoldDaprTasks.appIdPrompt",
-						"Enter a Dapr ID for the application"
+						"Enter a Dapr ID for the application",
 					),
 					value: wizardContext.appId ?? "app",
 					validateInput: (value) => {
 						return value === ""
 							? localize(
 									"commands.scaffoldDaprTasks.invalidAppId",
-									"An application ID must be a non-empty string."
-								)
+									"An application ID must be a non-empty string.",
+							  )
 							: undefined;
 					},
 				}),
@@ -420,7 +420,7 @@ export async function scaffoldDaprTasks(
 		};
 
 		const appPortStep: WizardStep<ScaffoldWizardContext> = async (
-			wizardContext
+			wizardContext,
 		) => {
 			telemetryProperties.cancelStep = "appPort";
 
@@ -428,13 +428,13 @@ export async function scaffoldDaprTasks(
 				wizardContext.appPort ??
 				(await getDefaultPort(
 					wizardContext.configuration,
-					wizardContext.folder
+					wizardContext.folder,
 				));
 
 			const appPortString = await ui.showInputBox({
 				prompt: localize(
 					"commands.scaffoldDaprTasks.portPrompt",
-					"Enter the port on which the application listens."
+					"Enter the port on which the application listens.",
 				),
 				validateInput: (value) => {
 					if (/^\d+$/.test(value)) {
@@ -447,7 +447,7 @@ export async function scaffoldDaprTasks(
 
 					return localize(
 						"commands.scaffoldDaprTasks.invalidPortMessage",
-						"A valid port number is a positive integer (1 to 65535)."
+						"A valid port number is a positive integer (1 to 65535).",
 					);
 				},
 				value: appPort.toString(),
@@ -463,12 +463,12 @@ export async function scaffoldDaprTasks(
 			{
 				title: localize(
 					"commands.scaffoldDaprTasks.wizardTitle",
-					"Scaffold Dapr Tasks"
+					"Scaffold Dapr Tasks",
 				),
 			},
 			configurationStep,
 			appIdStep,
-			appPortStep
+			appPortStep,
 		);
 
 		const buildTask = result.configuration.preLaunchTask;
@@ -493,7 +493,7 @@ export async function scaffoldDaprTasks(
 
 				return daprUpTask;
 			},
-			onTaskConflict
+			onTaskConflict,
 		);
 
 		const postDebugTask = await scaffolder.scaffoldTask(
@@ -512,14 +512,14 @@ export async function scaffoldDaprTasks(
 
 				return daprdDownTask;
 			},
-			onTaskConflict
+			onTaskConflict,
 		);
 
 		await scaffolder.scaffoldConfiguration(
 			localize(
 				"commands.scaffoldDaprTasks.configurationName",
 				"{0} with Dapr",
-				result.configuration.name
+				result.configuration.name,
 			),
 			result.folder,
 			(name) => {
@@ -530,7 +530,7 @@ export async function scaffoldDaprTasks(
 					postDebugTask,
 				};
 			},
-			onConfigConflict
+			onConfigConflict,
 		);
 	}
 }
@@ -539,7 +539,7 @@ const createScaffoldDaprTasksCommand =
 	(
 		scaffolder: Scaffolder,
 		templateScaffolder: TemplateScaffolder,
-		ui: UserInput
+		ui: UserInput,
 	) =>
 	(context: IActionContext): Promise<void> =>
 		scaffoldDaprTasks(context, scaffolder, templateScaffolder, ui);

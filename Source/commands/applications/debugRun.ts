@@ -12,7 +12,7 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 async function debugRun(applications: DaprApplication[]): Promise<void> {
 	for (const application of applications.filter(
-		(a) => a.appPid !== undefined
+		(a) => a.appPid !== undefined,
 	)) {
 		await debugApplication(application);
 	}
@@ -25,8 +25,8 @@ const createDebugRunCommand =
 			throw new Error(
 				localize(
 					"commands.applications.debugRun.noPaletteSupport",
-					"Debugging requires selecting a run in the Dapr view."
-				)
+					"Debugging requires selecting a run in the Dapr view.",
+				),
 			);
 		}
 

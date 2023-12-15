@@ -11,7 +11,7 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 export default class GetStartedNode implements TreeNode {
 	getTreeItem(): Promise<vscode.TreeItem> {
 		const treeItem = new vscode.TreeItem(
-			localize("views.getStarted.label", "Get Started")
+			localize("views.getStarted.label", "Get Started"),
 		);
 
 		treeItem.command = {

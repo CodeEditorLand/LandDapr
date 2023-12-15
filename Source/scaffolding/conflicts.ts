@@ -20,5 +20,5 @@ export type ConflictUniquenessPredicate = (name: string) => Promise<boolean>;
 
 export type ConflictHandler = (
 	name: string,
-	isUnique: ConflictUniquenessPredicate
+	isUnique: ConflictUniquenessPredicate,
 ) => Promise<ConflictResult>;

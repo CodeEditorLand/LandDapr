@@ -11,7 +11,7 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 export default class ReportIssueNode implements TreeNode {
 	getTreeItem(): Promise<vscode.TreeItem> {
 		const treeItem = new vscode.TreeItem(
-			localize("views.reportIssue.label", "Report Issue")
+			localize("views.reportIssue.label", "Report Issue"),
 		);
 
 		treeItem.command = {

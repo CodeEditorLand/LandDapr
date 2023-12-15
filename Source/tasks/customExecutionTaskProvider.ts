@@ -28,8 +28,8 @@ export default class CustomExecutionTaskProvider
 			task.problemMatchers && task.problemMatchers.length > 0
 				? task.problemMatchers
 				: this.problemMatchers !== undefined
-				  ? this.problemMatchers
-				  : [];
+					? this.problemMatchers
+					: [];
 
 		const resolvedTask = new vscode.Task(
 			task.definition,

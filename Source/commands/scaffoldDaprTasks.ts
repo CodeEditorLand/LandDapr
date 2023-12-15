@@ -412,7 +412,7 @@ export async function scaffoldDaprTasks(
 							? localize(
 									"commands.scaffoldDaprTasks.invalidAppId",
 									"An application ID must be a non-empty string."
-							  )
+								)
 							: undefined;
 					},
 				}),

@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import CommandLineBuilder from "../util/commandLineBuilder";
-import CommandTaskProvider from "./commandTaskProvider";
-import { TaskDefinition } from "./taskDefinition";
-import { TelemetryProvider } from "../services/telemetryProvider";
-import { IActionContext } from "@microsoft/vscode-azext-utils";
-import { DaprInstallationManager } from "../services/daprInstallationManager";
-import * as fs from "fs/promises";
 import path from "path";
+import { IActionContext } from "@microsoft/vscode-azext-utils";
+import * as fs from "fs/promises";
 import * as vscode from "vscode";
 import * as nls from "vscode-nls";
+import { DaprInstallationManager } from "../services/daprInstallationManager";
+import { TelemetryProvider } from "../services/telemetryProvider";
+import CommandLineBuilder from "../util/commandLineBuilder";
 import { getLocalizationPathForFile } from "../util/localization";
+import CommandTaskProvider from "./commandTaskProvider";
+import { TaskDefinition } from "./taskDefinition";
 
 export interface DaprTaskDefinition extends TaskDefinition {
 	appChannelAddress?: string;
@@ -55,7 +55,7 @@ export default class DaprCommandTaskProvider extends CommandTaskProvider {
 	constructor(
 		daprInstallationManager: DaprInstallationManager,
 		daprPathProvider: () => string,
-		telemetryProvider: TelemetryProvider
+		telemetryProvider: TelemetryProvider,
 	) {
 		super(
 			(definition, callback) => {
@@ -63,7 +63,7 @@ export default class DaprCommandTaskProvider extends CommandTaskProvider {
 					"vscode-dapr.tasks.dapr",
 					async (context: IActionContext) => {
 						await daprInstallationManager.ensureInitialized(
-							context.errorHandling
+							context.errorHandling,
 						);
 
 						const daprDefinition = definition as DaprTaskDefinition;
@@ -75,14 +75,14 @@ export default class DaprCommandTaskProvider extends CommandTaskProvider {
 							if (
 								Object.prototype.hasOwnProperty.call(
 									daprDefinition,
-									def
+									def,
 								) &&
 								def !== "type" &&
 								def !== undefined
 							) {
 								const command = createCommandLineBuilder(
 									daprPathProvider,
-									daprDefinition
+									daprDefinition,
 								).build();
 								return callback(command, {
 									cwd: definition.cwd,
@@ -98,14 +98,14 @@ export default class DaprCommandTaskProvider extends CommandTaskProvider {
 							throw new Error(
 								localize(
 									"tasks.daprCommandTaskProvider.noFolderOrWorkspace",
-									"Open a folder or workspace."
-								)
+									"Open a folder or workspace.",
+								),
 							);
 						}
 
 						const runFilePath = path.join(
 							folder.uri.fsPath,
-							"dapr.yaml"
+							"dapr.yaml",
 						);
 
 						await checkFileExists(runFilePath).then(
@@ -113,7 +113,7 @@ export default class DaprCommandTaskProvider extends CommandTaskProvider {
 								if (fileExists) {
 									const command = createCommandLineBuilder(
 										daprPathProvider,
-										{ type: "dapr", runFile: runFilePath }
+										{ type: "dapr", runFile: runFilePath },
 									).build();
 									return callback(command, {
 										cwd: definition.cwd,
@@ -122,17 +122,17 @@ export default class DaprCommandTaskProvider extends CommandTaskProvider {
 									throw new Error(
 										localize(
 											"tasks.daprCommandTaskProvider.noRunFile",
-											"there is no dapr.yaml in this folder or workspace."
-										)
+											"there is no dapr.yaml in this folder or workspace.",
+										),
 									);
 								}
-							}
+							},
 						);
-					}
+					},
 				);
 			},
 			/* isBackgroundTask: */ true,
-			/* problemMatchers: */ ["$dapr"]
+			/* problemMatchers: */ ["$dapr"],
 		);
 	}
 }
@@ -148,27 +148,27 @@ async function checkFileExists(filePath: string): Promise<boolean> {
 
 function createCommandLineBuilder(
 	daprPathProvider: () => string,
-	daprDefinition: DaprTaskDefinition
+	daprDefinition: DaprTaskDefinition,
 ) {
 	const commandLineBuilder = CommandLineBuilder.create(
 		daprPathProvider(),
-		"run"
+		"run",
 	)
 		.withNamedArg(
 			"--app-health-check-path",
-			daprDefinition.appHealthCheckPath
+			daprDefinition.appHealthCheckPath,
 		)
 		.withNamedArg(
 			"--app-health-probe-interval",
-			daprDefinition.appHealthProbeInterval
+			daprDefinition.appHealthProbeInterval,
 		)
 		.withNamedArg(
 			"--app-health-probe-timeout",
-			daprDefinition.appHealthProbeTimeout
+			daprDefinition.appHealthProbeTimeout,
 		)
 		.withNamedArg(
 			"--app-health-threshold",
-			daprDefinition.appHealthThreshold
+			daprDefinition.appHealthThreshold,
 		)
 		.withNamedArg("--app-id", daprDefinition.appId)
 		.withNamedArg("--app-max-concurrency", daprDefinition.appMaxConcurrency)
@@ -180,12 +180,12 @@ function createCommandLineBuilder(
 		.withNamedArg("--dapr-grpc-port", daprDefinition.grpcPort)
 		.withNamedArg(
 			"--dapr-http-max-request-size",
-			daprDefinition.httpMaxRequestSize
+			daprDefinition.httpMaxRequestSize,
 		)
 		.withNamedArg("--dapr-http-port", daprDefinition.httpPort)
 		.withNamedArg(
 			"--dapr-http-read-buffer-size",
-			daprDefinition.httpReadBufferSize
+			daprDefinition.httpReadBufferSize,
 		)
 		.withNamedArg("--enable-api-logging", daprDefinition.enableApiLogging, {
 			assignValue: true,
@@ -193,7 +193,7 @@ function createCommandLineBuilder(
 		.withNamedArg(
 			"--enable-app-health-check",
 			daprDefinition.enableHealthCheck,
-			{ assignValue: true }
+			{ assignValue: true },
 		)
 		.withNamedArg("--enable-profiling", daprDefinition.enableProfiling, {
 			assignValue: true,
@@ -202,7 +202,7 @@ function createCommandLineBuilder(
 		.withNamedArg("--metrics-port", daprDefinition.metricsPort)
 		.withNamedArg(
 			"--placement-host-address",
-			daprDefinition.placementHostAddress
+			daprDefinition.placementHostAddress,
 		)
 		.withNamedArg("--profile-port", daprDefinition.profilePort)
 		.withNamedArg("--run-file", daprDefinition.runFile)

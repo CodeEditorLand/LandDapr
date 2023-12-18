@@ -3,10 +3,10 @@
 
 import * as vscode from "vscode";
 import TreeNode from "../treeNode";
+import GetStartedNode from "./getStartedNode";
 import ReadDocumentationNode from "./readDocumentationNode";
 import ReportIssueNode from "./reportIssueNode";
 import ReviewIssuesNode from "./reviewIssuesNode";
-import GetStartedNode from "./getStartedNode";
 
 export default class HelpTreeDataProvider
 	implements vscode.TreeDataProvider<TreeNode>
@@ -14,7 +14,7 @@ export default class HelpTreeDataProvider
 	onDidChangeTreeData?: vscode.Event<TreeNode>;
 
 	getTreeItem(
-		element: TreeNode
+		element: TreeNode,
 	): vscode.TreeItem | Thenable<vscode.TreeItem> {
 		return element.getTreeItem();
 	}

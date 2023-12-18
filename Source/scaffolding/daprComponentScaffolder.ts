@@ -3,9 +3,9 @@
 
 import * as path from "path";
 import * as process from "process";
-import { TemplateScaffolder } from "./templateScaffolder";
-import { Scaffolder } from "./scaffolder";
 import { ConflictHandler } from "./conflicts";
+import { Scaffolder } from "./scaffolder";
+import { TemplateScaffolder } from "./templateScaffolder";
 
 export async function scaffoldRedisComponent(
 	scaffolder: Scaffolder,
@@ -14,7 +14,7 @@ export async function scaffoldRedisComponent(
 	folderPath: string,
 	fileName: string,
 	onConflict: ConflictHandler,
-	redisHost?: string
+	redisHost?: string,
 ): Promise<void> {
 	// NOTE: If DAPR_NETWORK is set, Dapr is running within a multi-container context and Redis is a separate container,
 	//       so use 'dapr_redis' rather than 'localhost'.
@@ -27,7 +27,7 @@ export async function scaffoldRedisComponent(
 					process.env.DAPR_REDIS_HOST ??
 					(process.env.DAPR_NETWORK ? "dapr_redis" : "localhost"),
 			}),
-		onConflict
+		onConflict,
 	);
 }
 
@@ -36,7 +36,7 @@ export function scaffoldPubSubComponent(
 	templateScaffolder: TemplateScaffolder,
 	folderPath: string,
 	onConflict: ConflictHandler,
-	options?: { fileName?: string; redisHost?: string }
+	options?: { fileName?: string; redisHost?: string },
 ): Promise<void> {
 	return scaffoldRedisComponent(
 		scaffolder,
@@ -45,7 +45,7 @@ export function scaffoldPubSubComponent(
 		folderPath,
 		options?.fileName ?? "pubsub.yaml",
 		onConflict,
-		options?.redisHost
+		options?.redisHost,
 	);
 }
 
@@ -54,7 +54,7 @@ export function scaffoldStateStoreComponent(
 	templateScaffolder: TemplateScaffolder,
 	folderPath: string,
 	onConflict: ConflictHandler,
-	options?: { fileName?: string; redisHost?: string }
+	options?: { fileName?: string; redisHost?: string },
 ): Promise<void> {
 	return scaffoldRedisComponent(
 		scaffolder,
@@ -63,7 +63,7 @@ export function scaffoldStateStoreComponent(
 		folderPath,
 		options?.fileName ?? "statestore.yaml",
 		onConflict,
-		options?.redisHost
+		options?.redisHost,
 	);
 }
 
@@ -72,7 +72,7 @@ export async function scaffoldZipkinComponent(
 	templateScaffolder: TemplateScaffolder,
 	folderPath: string,
 	onConflict: ConflictHandler,
-	zipkinHost?: string
+	zipkinHost?: string,
 ): Promise<void> {
 	// NOTE: If DAPR_NETWORK is set, Dapr is running within a multi-container context and Zipkin is a separate container,
 	//       so use 'dapr_zipkin' rather than 'localhost'.
@@ -85,6 +85,6 @@ export async function scaffoldZipkinComponent(
 					process.env.DAPR_ZIPKIN_HOST ??
 					(process.env.DAPR_NETWORK ? "dapr_zipkin" : "localhost"),
 			}),
-		onConflict
+		onConflict,
 	);
 }

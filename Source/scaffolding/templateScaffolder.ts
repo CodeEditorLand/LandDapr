@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import * as path from "path";
 import * as fs from "fs/promises";
 import * as handlebars from "handlebars";
-import * as path from "path";
 
 export interface TemplateScaffolder {
 	scaffoldTemplate<T>(name: string, context: T): Promise<string>;

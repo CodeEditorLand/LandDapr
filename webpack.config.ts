@@ -7,8 +7,8 @@
 
 import * as path from "path";
 import TerserPlugin from "terser-webpack-plugin";
-import * as webpack from "webpack";
 import { NLSBundlePlugin } from "vscode-nls-dev/lib/webpack-bundler";
+import * as webpack from "webpack";
 
 export const config: webpack.Configuration = {
 	devtool: "nosources-source-map",
@@ -97,7 +97,7 @@ export const config: webpack.Configuration = {
 						}
 					}
 				}
-			}
+			},
 		),
 	],
 	resolve: {

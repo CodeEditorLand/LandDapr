@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as vscode from "vscode";
 import {
-	IAzureUserInput,
-	IAzureQuickPickOptions,
-	IActionContext,
-	AzureWizardPromptStep,
 	AzureWizard,
+	AzureWizardPromptStep,
+	IActionContext,
+	IAzureQuickPickOptions,
+	IAzureUserInput,
 } from "@microsoft/vscode-azext-utils";
+import * as vscode from "vscode";
 
 interface WizardOptions<T> {
 	hideStepCount?: boolean;
@@ -27,7 +27,7 @@ export interface UserInput {
 	showIssueReporter(): Promise<void>;
 	showQuickPick<T extends vscode.QuickPickItem>(
 		items: T[] | Thenable<T[]>,
-		options: IAzureQuickPickOptions
+		options: IAzureQuickPickOptions,
 	): Promise<T>;
 	showWarningMessage<T extends vscode.MessageItem>(
 		message: string,
@@ -42,8 +42,8 @@ export interface UserInput {
 		title: string,
 		task: (
 			progress: vscode.Progress<{ message?: string; increment?: number }>,
-			token: vscode.CancellationToken
-		) => Promise<T>
+			token: vscode.CancellationToken,
+		) => Promise<T>,
 	): Promise<T>;
 }
 
@@ -91,13 +91,13 @@ export class AggregateUserInput implements UserInput {
 		// TODO: Pull extension ID from package.json.
 		await vscode.commands.executeCommand(
 			"vscode.openIssueReporter",
-			"ms-azuretools.vscode-dapr"
+			"ms-azuretools.vscode-dapr",
 		);
 	}
 
 	showQuickPick<T extends vscode.QuickPickItem>(
 		items: T[] | Thenable<T[]>,
-		options: IAzureQuickPickOptions
+		options: IAzureQuickPickOptions,
 	): Promise<T> {
 		return this.ui.showQuickPick(items, options);
 	}
@@ -135,7 +135,7 @@ export class AggregateUserInput implements UserInput {
 		const wizard = new AzureWizard(wizardContext, {
 			hideStepCount: options.hideStepCount,
 			promptSteps: filteredSteps.map(
-				(step) => new WizardPromptStep(step)
+				(step) => new WizardPromptStep(step),
 			),
 			title: options.title,
 		});
@@ -152,8 +152,8 @@ export class AggregateUserInput implements UserInput {
 				message?: string | undefined;
 				increment?: number | undefined;
 			}>,
-			token: vscode.CancellationToken
-		) => Promise<T>
+			token: vscode.CancellationToken,
+		) => Promise<T>,
 	): Promise<T> {
 		return await vscode.window.withProgress(
 			{
@@ -161,7 +161,7 @@ export class AggregateUserInput implements UserInput {
 				location: vscode.ProgressLocation.Notification,
 				title,
 			},
-			task
+			task,
 		);
 	}
 }

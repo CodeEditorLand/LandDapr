@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import {
+	IActionContext,
+	ITelemetryContext,
+} from "@microsoft/vscode-azext-utils";
+import { firstValueFrom } from "rxjs";
 import * as vscode from "vscode";
 import * as nls from "vscode-nls";
 import {
 	DaprApplication,
 	DaprApplicationProvider,
 } from "../../services/daprApplicationProvider";
-import { UserInput, WizardStep } from "../../services/userInput";
 import { DaprClient } from "../../services/daprClient";
-import {
-	IActionContext,
-	ITelemetryContext,
-} from "@microsoft/vscode-azext-utils";
+import { UserInput, WizardStep } from "../../services/userInput";
 import { getLocalizationPathForFile } from "../../util/localization";
-import { firstValueFrom } from "rxjs";
 
 const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
@@ -26,19 +26,19 @@ export async function getApplication(
 	context: ITelemetryContext,
 	daprApplicationProvider: DaprApplicationProvider,
 	ui: UserInput,
-	selectedApplication?: DaprApplication
+	selectedApplication?: DaprApplication,
 ): Promise<DaprApplication> {
 	if (!selectedApplication) {
 		const applications = await firstValueFrom(
-			daprApplicationProvider.applications
+			daprApplicationProvider.applications,
 		);
 
 		if (applications.length === 0) {
 			throw new Error(
 				localize(
 					"commands.invokeCommon.noApplicationsMessage",
-					"No Dapr applications are running."
-				)
+					"No Dapr applications are running.",
+				),
 			);
 		}
 
@@ -52,9 +52,9 @@ export async function getApplication(
 			{
 				placeHolder: localize(
 					"commands.invokeCommon.applicationPlaceholder",
-					"Select a Dapr application"
+					"Select a Dapr application",
 				),
-			}
+			},
 		);
 
 		selectedApplication = pickedApplication.application;
@@ -67,7 +67,7 @@ export async function getMethod(
 	context: ITelemetryContext,
 	ui: UserInput,
 	workspaceState: vscode.Memento,
-	methodStateKey: string
+	methodStateKey: string,
 ): Promise<string> {
 	const previousMethod = workspaceState.get<string>(methodStateKey);
 
@@ -76,14 +76,14 @@ export async function getMethod(
 	const method = await ui.showInputBox({
 		prompt: localize(
 			"commands.invokeCommon.methodPrompt",
-			"Enter the application method to invoke"
+			"Enter the application method to invoke",
 		),
 		validateInput: (value) => {
 			return value === ""
 				? localize(
 						"commands.invokeCommon.invalidMethod",
-						"An application method must be a non-empty string."
-					)
+						"An application method must be a non-empty string.",
+				  )
 				: undefined;
 		},
 		value: previousMethod,
@@ -98,7 +98,7 @@ export async function getPayload(
 	context: ITelemetryContext,
 	ui: UserInput,
 	workspaceState: vscode.Memento,
-	payLoadStateKey: string
+	payLoadStateKey: string,
 ): Promise<unknown> {
 	const previousPayloadString = workspaceState.get<string>(payLoadStateKey);
 
@@ -107,7 +107,7 @@ export async function getPayload(
 	const payloadString = await ui.showInputBox({
 		prompt: localize(
 			"commands.invokeCommon.payloadPrompt",
-			"Enter a JSON payload for the method (or leave empty, if no payload is needed)"
+			"Enter a JSON payload for the method (or leave empty, if no payload is needed)",
 		),
 		validateInput: (value) => {
 			try {
@@ -146,12 +146,12 @@ export async function invoke(
 	ui: UserInput,
 	workspaceState: vscode.Memento,
 	application: DaprApplication | undefined,
-	isPost?: boolean
+	isPost?: boolean,
 ): Promise<void> {
 	context.errorHandling.suppressReportIssue = true;
 
 	const applicationStep: WizardStep<InvokeWizardContext> = async (
-		wizardContext
+		wizardContext,
 	) => {
 		return {
 			...wizardContext,
@@ -159,13 +159,13 @@ export async function invoke(
 				context.telemetry,
 				daprApplicationProvider,
 				ui,
-				application
+				application,
 			),
 		};
 	};
 
 	const methodStep: WizardStep<InvokeWizardContext> = async (
-		wizardContext
+		wizardContext,
 	) => {
 		return {
 			...wizardContext,
@@ -173,13 +173,13 @@ export async function invoke(
 				context.telemetry,
 				ui,
 				workspaceState,
-				isPost ? invokePostMethodStateKey : invokeGetMethodStateKey
+				isPost ? invokePostMethodStateKey : invokeGetMethodStateKey,
 			),
 		};
 	};
 
 	const payloadStep: WizardStep<InvokeWizardContext> = async (
-		wizardContext
+		wizardContext,
 	) => {
 		return {
 			...wizardContext,
@@ -188,8 +188,8 @@ export async function invoke(
 						context.telemetry,
 						ui,
 						workspaceState,
-						invokePostPayloadStateKey
-					)
+						invokePostPayloadStateKey,
+				  )
 				: undefined,
 		};
 	};
@@ -199,18 +199,18 @@ export async function invoke(
 			initialContext: { application },
 			title: localize(
 				"commands.invokeCommon.wizardTitle",
-				"Invoke Dapr Application"
+				"Invoke Dapr Application",
 			),
 		},
-		!application ? applicationStep : undefined,
+		application ? undefined : applicationStep,
 		methodStep,
-		isPost ? payloadStep : undefined
+		isPost ? payloadStep : undefined,
 	);
 
 	await ui.withProgress(
 		localize(
 			"commands.invokeCommon.invokeMessage",
-			"Invoking Dapr application"
+			"Invoking Dapr application",
 		),
 		async (_, token) => {
 			if (isPost) {
@@ -220,8 +220,8 @@ export async function invoke(
 						"Invoking Dapr application '{0}' method '{1}' with payload '{2}'...",
 						result.application.appId,
 						result.method,
-						JSON.stringify(result.payload)
-					)
+						JSON.stringify(result.payload),
+					),
 				);
 			} else {
 				outputChannel.appendLine(
@@ -229,8 +229,8 @@ export async function invoke(
 						"commands.invokeCommon.invokeGetMessage",
 						"Invoking Dapr application '{0}' method '{1}'...",
 						result.application.appId,
-						result.method
-					)
+						result.method,
+					),
 				);
 			}
 
@@ -239,23 +239,23 @@ export async function invoke(
 						result.application,
 						result.method,
 						result.payload,
-						token
-					)
+						token,
+				  )
 				: await daprClient.invokeGet(
 						result.application,
 						result.method,
-						token
-					);
+						token,
+				  );
 
 			outputChannel.appendLine(
 				localize(
 					"commands.invokeCommon.invokeSucceededMessage",
 					"Method succeeded: {0}",
-					JSON.stringify(data)
-				)
+					JSON.stringify(data),
+				),
 			);
 
 			outputChannel.show();
-		}
+		},
 	);
 }

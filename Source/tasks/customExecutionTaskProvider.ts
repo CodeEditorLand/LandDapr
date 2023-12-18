@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import * as vscode from "vscode";
+import { TaskDefinition } from "./taskDefinition";
 import TaskPseudoterminal from "./taskPseudoterminal";
 import { PseudoterminalWriter } from "./taskPseudoterminalWriter";
-import { TaskDefinition } from "./taskDefinition";
 
 export default class CustomExecutionTaskProvider
 	implements vscode.TaskProvider
@@ -13,10 +13,10 @@ export default class CustomExecutionTaskProvider
 		private readonly callback: (
 			definition: TaskDefinition,
 			writer: PseudoterminalWriter,
-			token?: vscode.CancellationToken
+			token?: vscode.CancellationToken,
 		) => Promise<number | void>,
 		private readonly isBackgroundTask?: boolean,
-		private readonly problemMatchers?: string[]
+		private readonly problemMatchers?: string[],
 	) {}
 
 	provideTasks(): vscode.ProviderResult<vscode.Task[]> {
@@ -28,8 +28,8 @@ export default class CustomExecutionTaskProvider
 			task.problemMatchers && task.problemMatchers.length > 0
 				? task.problemMatchers
 				: this.problemMatchers !== undefined
-					? this.problemMatchers
-					: [];
+				  ? this.problemMatchers
+				  : [];
 
 		const resolvedTask = new vscode.Task(
 			task.definition,
@@ -39,11 +39,11 @@ export default class CustomExecutionTaskProvider
 			new vscode.CustomExecution(() =>
 				Promise.resolve(
 					new TaskPseudoterminal((writer, token) =>
-						this.callback(task.definition, writer, token)
-					)
-				)
+						this.callback(task.definition, writer, token),
+					),
+				),
 			),
-			problemMatchers
+			problemMatchers,
 		);
 
 		resolvedTask.isBackground =

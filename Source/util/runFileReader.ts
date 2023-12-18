@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as nls from "vscode-nls";
 import * as path from "path";
-import * as vscode from "vscode";
-import { getLocalizationPathForFile } from "../util/localization";
 import { load } from "js-yaml";
+import * as vscode from "vscode";
+import * as nls from "vscode-nls";
+import { getLocalizationPathForFile } from "../util/localization";
 
 const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
@@ -26,8 +26,8 @@ export async function fromRunFilePath(path: vscode.Uri): Promise<DaprRunFile> {
 			localize(
 				"util.runFileReader.noContent",
 				"There is no run file content at path: {0}",
-				path.fsPath
-			)
+				path.fsPath,
+			),
 		);
 	}
 
@@ -53,7 +53,7 @@ export function getAppId(app: DaprRunApplication): string {
 	throw new Error(
 		localize(
 			"util.runFileReader.unableToDetermineAppId",
-			"Unable to determine a configured application's ID."
-		)
+			"Unable to determine a configured application's ID.",
+		),
 	);
 }

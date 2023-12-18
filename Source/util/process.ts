@@ -2,15 +2,15 @@
 // Licensed under the MIT license.
 
 import * as cp from "child_process";
+import * as readline from "node:readline";
 import internal from "stream";
 import * as vscode from "vscode";
 import * as nls from "vscode-nls";
 import * as localization from "./localization";
-import * as readline from "node:readline";
 import { treeKill } from "./treeKill";
 
 const localize = nls.loadMessageBundle(
-	localization.getLocalizationPathForFile(__filename)
+	localization.getLocalizationPathForFile(__filename),
 );
 
 const DEFAULT_BUFFER_SIZE = 24 * 1024; // The default Node.js `exec` buffer size is 1 MB, our actual usage is far less
@@ -27,7 +27,7 @@ function bufferToString(buffer: Buffer): string {
 export interface ProcessOutputHandler {
 	listen(
 		stderr: internal.Readable | null,
-		stdout: internal.Readable | null
+		stdout: internal.Readable | null,
 	): void;
 }
 
@@ -49,7 +49,7 @@ export class LineOutputHandler
 
 	listen(
 		stderr: internal.Readable | null,
-		stdout: internal.Readable | null
+		stdout: internal.Readable | null,
 	): void {
 		if (stdout) {
 			this.rl = readline.createInterface({
@@ -73,7 +73,7 @@ export class WrittenOutputHandler
 
 	constructor(
 		onStdErr: (data: string) => void,
-		onStdOut: (data: string) => void
+		onStdOut: (data: string) => void,
 	) {
 		super(() => {
 			this.stderr?.removeListener("data", this.onStdErrCallback);
@@ -86,7 +86,7 @@ export class WrittenOutputHandler
 
 	listen(
 		stderr: internal.Readable | null,
-		stdout: internal.Readable | null
+		stdout: internal.Readable | null,
 	): void {
 		this.stderr = stderr;
 		this.stdout = stdout;
@@ -110,15 +110,15 @@ export class BufferedOutputHandler extends WrittenOutputHandler {
 			(data) => {
 				this.stderrBytesWritten += this.stderrBuffer.write(
 					data.toString(),
-					this.stderrBytesWritten
+					this.stderrBytesWritten,
 				);
 			},
 			(data) => {
 				this.stdoutBytesWritten += this.stdoutBuffer.write(
 					data.toString(),
-					this.stdoutBytesWritten
+					this.stdoutBytesWritten,
 				);
-			}
+			},
 		);
 
 		this.stdoutBuffer = Buffer.alloc(maxBuffer);
@@ -140,7 +140,7 @@ export class Process {
 	static async exec(
 		command: string,
 		options?: cp.ExecOptions,
-		token?: vscode.CancellationToken
+		token?: vscode.CancellationToken,
 	): Promise<{ code: number; stderr: string; stdout: string }> {
 		const outputHandler = new BufferedOutputHandler();
 
@@ -148,7 +148,7 @@ export class Process {
 			const code = await Process.spawn(
 				command,
 				{ ...options, outputHandler },
-				token
+				token,
 			);
 
 			return {
@@ -164,7 +164,7 @@ export class Process {
 	static spawn(
 		command: string,
 		options?: SpawnOptions,
-		token?: vscode.CancellationToken
+		token?: vscode.CancellationToken,
 	): Promise<number> {
 		return new Promise((resolve, reject) => {
 			// Without the shell option, it pukes on arguments
@@ -186,9 +186,9 @@ export class Process {
 							localize(
 								"util.process.exitErrorMessage",
 								"Process exited due to signal '{0}'.",
-								signal
-							)
-						)
+								signal,
+							),
+						),
 					);
 				}
 			});
@@ -209,7 +209,7 @@ export class Process {
 
 	static async spawnProcess(
 		command: string,
-		options?: SpawnOptions
+		options?: SpawnOptions,
 	): Promise<SpawnedProcess> {
 		options = options || {};
 		options.shell ??= true;

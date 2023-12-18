@@ -6,8 +6,8 @@ import * as vscode from "vscode";
 import scaffoldConfiguration, {
 	ConfigurationContentFactory,
 } from "./configurationScaffolder";
-import scaffoldTask, { TaskContentFactory } from "./taskScaffolder";
 import { ConflictHandler } from "./conflicts";
+import scaffoldTask, { TaskContentFactory } from "./taskScaffolder";
 
 export type FileContentFactory = (path: string) => Promise<string>;
 
@@ -16,18 +16,18 @@ export interface Scaffolder {
 		name: string,
 		folder: vscode.WorkspaceFolder,
 		contentFactory: ConfigurationContentFactory,
-		onConflict: ConflictHandler
+		onConflict: ConflictHandler,
 	): Promise<string | undefined>;
 	scaffoldFile(
 		path: string,
 		contentFactory: FileContentFactory,
-		onConflict: ConflictHandler
+		onConflict: ConflictHandler,
 	): Promise<string | undefined>;
 	scaffoldTask(
 		label: string,
 		folder: vscode.WorkspaceFolder,
 		contentFactory: TaskContentFactory,
-		onConflict: ConflictHandler
+		onConflict: ConflictHandler,
 	): Promise<string | undefined>;
 }
 
@@ -46,7 +46,7 @@ export default class LocalScaffolder implements Scaffolder {
 		name: string,
 		folder: vscode.WorkspaceFolder,
 		contentFactory: ConfigurationContentFactory,
-		onConflict: ConflictHandler
+		onConflict: ConflictHandler,
 	): Promise<string | undefined> {
 		return scaffoldConfiguration(name, folder, contentFactory, onConflict);
 	}
@@ -54,12 +54,12 @@ export default class LocalScaffolder implements Scaffolder {
 	async scaffoldFile(
 		path: string,
 		contentFactory: FileContentFactory,
-		onConflict: ConflictHandler
+		onConflict: ConflictHandler,
 	): Promise<string | undefined> {
 		if (await pathExists(path)) {
 			const result = await onConflict(
 				path,
-				async (targetPath) => !(await pathExists(targetPath))
+				async (targetPath) => !(await pathExists(targetPath)),
 			);
 
 			switch (result.type) {
@@ -82,7 +82,7 @@ export default class LocalScaffolder implements Scaffolder {
 		label: string,
 		folder: vscode.WorkspaceFolder,
 		contentFactory: TaskContentFactory,
-		onConflict: ConflictHandler
+		onConflict: ConflictHandler,
 	): Promise<string | undefined> {
 		return scaffoldTask(label, folder, contentFactory, onConflict);
 	}

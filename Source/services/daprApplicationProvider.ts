@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import isequal from "lodash.isequal";
 import {
-	distinctUntilChanged,
 	Observable,
+	distinctUntilChanged,
 	shareReplay,
 	switchMap,
 	timer,
 } from "rxjs";
 import CommandLineBuilder from "../util/commandLineBuilder";
 import { Process } from "../util/process";
-import isequal from "lodash.isequal";
 
 export interface DaprApplication {
 	appId: string;
@@ -52,7 +52,7 @@ export default class DaprListBasedDaprApplicationProvider
 		this.applications = timer(0, 2000).pipe(
 			switchMap(() => this.getApplications()),
 			distinctUntilChanged(isequal),
-			shareReplay(1)
+			shareReplay(1),
 		);
 	}
 
@@ -61,7 +61,7 @@ export default class DaprListBasedDaprApplicationProvider
 	async getApplications(): Promise<DaprApplication[]> {
 		const command = CommandLineBuilder.create(
 			this.daprPathProvider(),
-			"list"
+			"list",
 		)
 			.withNamedArg("--output", "json")
 			.build();
@@ -70,7 +70,7 @@ export default class DaprListBasedDaprApplicationProvider
 
 		if (result.code !== 0) {
 			throw new Error(
-				`'${command}' failed with exit code ${result.code}.`
+				`'${command}' failed with exit code ${result.code}.`,
 			);
 		}
 

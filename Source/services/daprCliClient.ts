@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import CommandLineBuilder from "../util/commandLineBuilder";
-import { LineOutputHandler, Process } from "../util/process";
-import * as nls from "vscode-nls";
-import { getLocalizationPathForFile } from "../util/localization";
-import { DaprApplication } from "./daprApplicationProvider";
 import * as os from "os";
+import * as nls from "vscode-nls";
 import { AsyncDisposable } from "../util/asyncDisposable";
+import CommandLineBuilder from "../util/commandLineBuilder";
+import { getLocalizationPathForFile } from "../util/localization";
+import { LineOutputHandler, Process } from "../util/process";
+import { DaprApplication } from "./daprApplicationProvider";
 
 const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
@@ -43,7 +43,7 @@ export default class LocalDaprCliClient implements DaprCliClient {
 			this.daprPathProvider(),
 			"dashboard",
 			"--port",
-			"0"
+			"0",
 		).build();
 
 		let onLine: (line: string) => void;
@@ -88,7 +88,7 @@ export default class LocalDaprCliClient implements DaprCliClient {
 			daprPath,
 			"version",
 			"--output",
-			"json"
+			"json",
 		).build();
 
 		const result = await Process.exec(command);
@@ -98,8 +98,8 @@ export default class LocalDaprCliClient implements DaprCliClient {
 				localize(
 					"services.daprCliClient.versionFailed",
 					"Retrieving the dapr CLI version failed: {0}",
-					result.stderr
-				)
+					result.stderr,
+				),
 			);
 		}
 
@@ -141,8 +141,8 @@ export default class LocalDaprCliClient implements DaprCliClient {
 				localize(
 					"services.daprCliClient.stopRunFailed",
 					"Stopping the run failed: {0}",
-					result.stderr
-				)
+					result.stderr,
+				),
 			);
 		}
 	}

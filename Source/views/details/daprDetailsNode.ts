@@ -7,7 +7,7 @@ import TreeNode from "../treeNode";
 export default class DaprDetailsNode implements TreeNode {
 	constructor(
 		private readonly metadata: string,
-		private readonly description: string
+		private readonly description: string,
 	) {}
 
 	getTreeItem(): Promise<vscode.TreeItem> {

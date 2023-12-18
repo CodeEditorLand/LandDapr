@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as fs from "fs/promises";
 import * as path from "path";
+import * as fs from "fs/promises";
 import * as vscode from "vscode";
 import * as nls from "vscode-nls";
+import { ConflictHandler } from "../scaffolding/conflicts";
 import {
-	scaffoldStateStoreComponent,
 	scaffoldPubSubComponent,
+	scaffoldStateStoreComponent,
 	scaffoldZipkinComponent,
 } from "../scaffolding/daprComponentScaffolder";
-import { TemplateScaffolder } from "../scaffolding/templateScaffolder";
 import { Scaffolder } from "../scaffolding/scaffolder";
+import { TemplateScaffolder } from "../scaffolding/templateScaffolder";
 import { getLocalizationPathForFile } from "../util/localization";
-import { ConflictHandler } from "../scaffolding/conflicts";
 
 const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 async function scaffoldDaprComponents(
 	scaffolder: Scaffolder,
-	templateScaffolder: TemplateScaffolder
+	templateScaffolder: TemplateScaffolder,
 ): Promise<void> {
 	const rootWorkspaceFolderPath = (vscode.workspace.workspaceFolders ?? [])[0]
 		?.uri?.fsPath;
@@ -28,8 +28,8 @@ async function scaffoldDaprComponents(
 		throw new Error(
 			localize(
 				"commands.scaffoldDaprTasks.noWorkspaceError",
-				"To scaffold Dapr component files, first open a folder or workspace."
-			)
+				"To scaffold Dapr component files, first open a folder or workspace.",
+			),
 		);
 	}
 
@@ -46,19 +46,19 @@ async function scaffoldDaprComponents(
 		scaffolder,
 		templateScaffolder,
 		componentsPath,
-		onConflict
+		onConflict,
 	);
 	await scaffoldPubSubComponent(
 		scaffolder,
 		templateScaffolder,
 		componentsPath,
-		onConflict
+		onConflict,
 	);
 	await scaffoldZipkinComponent(
 		scaffolder,
 		templateScaffolder,
 		componentsPath,
-		onConflict
+		onConflict,
 	);
 
 	// TODO: Consider UX to prompt the user to update existing tasks' componentsPath property.

@@ -12,11 +12,11 @@ export interface DebugConfiguration extends vscode.DebugConfiguration {
 export type ConfigurationContentFactory = (name: string) => DebugConfiguration;
 
 export function getWorkspaceConfigurations(
-	folder: vscode.WorkspaceFolder
+	folder: vscode.WorkspaceFolder,
 ): DebugConfiguration[] {
 	const workspaceConfigurations = vscode.workspace.getConfiguration(
 		"launch",
-		folder.uri
+		folder.uri,
 	);
 
 	return <DebugConfiguration[]>workspaceConfigurations.configurations ?? [];
@@ -26,11 +26,11 @@ export default async function scaffoldConfiguration(
 	name: string,
 	folder: vscode.WorkspaceFolder,
 	contentFactory: ConfigurationContentFactory,
-	onConflict: ConflictHandler
+	onConflict: ConflictHandler,
 ): Promise<string | undefined> {
 	const workspaceConfiguration = vscode.workspace.getConfiguration(
 		"launch",
-		folder.uri
+		folder.uri,
 	);
 	const workspaceConfigurations: DebugConfiguration[] =
 		<DebugConfiguration[]>workspaceConfiguration.configurations ?? [];
@@ -39,13 +39,13 @@ export default async function scaffoldConfiguration(
 
 	const getConflictingIndex = (targetName: string): number =>
 		workspaceConfigurations.findIndex(
-			(configuration) => configuration.name === targetName
+			(configuration) => configuration.name === targetName,
 		);
 	const conflictingConfigurationIndex = getConflictingIndex(name);
 
 	if (conflictingConfigurationIndex >= 0) {
 		const result = await onConflict(name, (targetName) =>
-			Promise.resolve(getConflictingIndex(targetName) === -1)
+			Promise.resolve(getConflictingIndex(targetName) === -1),
 		);
 
 		switch (result.type) {
@@ -71,7 +71,7 @@ export default async function scaffoldConfiguration(
 	await workspaceConfiguration.update(
 		"configurations",
 		workspaceConfigurations,
-		vscode.ConfigurationTarget.WorkspaceFolder
+		vscode.ConfigurationTarget.WorkspaceFolder,
 	);
 
 	return name;

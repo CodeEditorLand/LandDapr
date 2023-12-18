@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as vscode from "vscode";
-import * as nls from "vscode-nls";
-import DaprApplicationNode from "../../views/applications/daprApplicationNode";
-import {
-	DaprApplicationProvider,
-	DaprApplication,
-} from "../../services/daprApplicationProvider";
-import { UserInput, WizardStep } from "../../services/userInput";
-import { DaprClient } from "../../services/daprClient";
-import { getApplication, getPayload } from "./invokeCommon";
 import {
 	IActionContext,
 	ITelemetryContext,
 } from "@microsoft/vscode-azext-utils";
-import { getLocalizationPathForFile } from "../../util/localization";
 import { firstValueFrom } from "rxjs";
+import * as vscode from "vscode";
+import * as nls from "vscode-nls";
+import {
+	DaprApplication,
+	DaprApplicationProvider,
+} from "../../services/daprApplicationProvider";
+import { DaprClient } from "../../services/daprClient";
+import { UserInput, WizardStep } from "../../services/userInput";
+import { getLocalizationPathForFile } from "../../util/localization";
+import DaprApplicationNode from "../../views/applications/daprApplicationNode";
+import { getApplication, getPayload } from "./invokeCommon";
 
 const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
@@ -29,10 +29,10 @@ const publishMessagePayloadStateKey =
 export async function getPubSubName(
 	context: ITelemetryContext,
 	ui: UserInput,
-	workspaceState: vscode.Memento
+	workspaceState: vscode.Memento,
 ): Promise<string> {
 	const previousMethod = workspaceState.get<string>(
-		publishMessagePubSubNameStateKey
+		publishMessagePubSubNameStateKey,
 	);
 
 	context.properties.cancelStep = "pubSubName";
@@ -40,15 +40,15 @@ export async function getPubSubName(
 	const topic = await ui.showInputBox({
 		prompt: localize(
 			"commands.publishMessage.pubSubNamePrompt",
-			"Enter the publish/subscribe component name used to publish"
+			"Enter the publish/subscribe component name used to publish",
 		),
 		value: previousMethod,
 		validateInput: (value) => {
 			return value === ""
 				? localize(
 						"commands.publishMessage.invalidPubSubName",
-						"A component name must be a non-empty string."
-					)
+						"A component name must be a non-empty string.",
+				  )
 				: undefined;
 		},
 	});
@@ -61,10 +61,10 @@ export async function getPubSubName(
 export async function getTopic(
 	context: ITelemetryContext,
 	ui: UserInput,
-	workspaceState: vscode.Memento
+	workspaceState: vscode.Memento,
 ): Promise<string> {
 	const previousMethod = workspaceState.get<string>(
-		publishMessageTopicStateKey
+		publishMessageTopicStateKey,
 	);
 
 	context.properties.cancelStep = "topic";
@@ -72,15 +72,15 @@ export async function getTopic(
 	const topic = await ui.showInputBox({
 		prompt: localize(
 			"commands.publishMessage.topicPrompt",
-			"Enter the topic to publish"
+			"Enter the topic to publish",
 		),
 		value: previousMethod,
 		validateInput: (value) => {
 			return value === ""
 				? localize(
 						"commands.publishMessage.invalidTopic",
-						"A topic must be a non-empty string."
-					)
+						"A topic must be a non-empty string.",
+				  )
 				: undefined;
 		},
 	});
@@ -104,12 +104,12 @@ export async function publishMessageCore(
 	outputChannel: vscode.OutputChannel,
 	ui: UserInput,
 	workspaceState: vscode.Memento,
-	application: DaprApplication | undefined
+	application: DaprApplication | undefined,
 ): Promise<void> {
 	context.errorHandling.suppressReportIssue = true;
 
 	const applicationStep: WizardStep<PublishWizardContext> = async (
-		wizardContext
+		wizardContext,
 	) => {
 		return {
 			...wizardContext,
@@ -117,26 +117,26 @@ export async function publishMessageCore(
 				context.telemetry,
 				daprApplicationProvider,
 				ui,
-				application
+				application,
 			),
 		};
 	};
 
 	const pubSubNameStep: WizardStep<PublishWizardContext> = async (
-		wizardContext
+		wizardContext,
 	) => {
 		return {
 			...wizardContext,
 			pubSubName: await getPubSubName(
 				context.telemetry,
 				ui,
-				workspaceState
+				workspaceState,
 			),
 		};
 	};
 
 	const topicStep: WizardStep<PublishWizardContext> = async (
-		wizardContext
+		wizardContext,
 	) => {
 		return {
 			...wizardContext,
@@ -145,7 +145,7 @@ export async function publishMessageCore(
 	};
 
 	const payloadStep: WizardStep<PublishWizardContext> = async (
-		wizardContext
+		wizardContext,
 	) => {
 		return {
 			...wizardContext,
@@ -153,7 +153,7 @@ export async function publishMessageCore(
 				context.telemetry,
 				ui,
 				workspaceState,
-				publishMessagePayloadStateKey
+				publishMessagePayloadStateKey,
 			),
 		};
 	};
@@ -163,19 +163,19 @@ export async function publishMessageCore(
 			initialContext: { application },
 			title: localize(
 				"commands.publishMessage.wizardTitle",
-				"Publish Dapr Message"
+				"Publish Dapr Message",
 			),
 		},
-		!application ? applicationStep : undefined,
+		application ? undefined : applicationStep,
 		pubSubNameStep,
 		topicStep,
-		payloadStep
+		payloadStep,
 	);
 
 	await ui.withProgress(
 		localize(
 			"commands.publishMessage.publishProgressTitle",
-			"Publishing Dapr message"
+			"Publishing Dapr message",
 		),
 		async (_, token) => {
 			outputChannel.appendLine(
@@ -184,8 +184,8 @@ export async function publishMessageCore(
 					"Publishing Dapr message '{0}' to application '{1}' with payload '{2}'...",
 					result.topic,
 					result.application.appId,
-					JSON.stringify(result.payload)
-				)
+					JSON.stringify(result.payload),
+				),
 			);
 
 			await daprClient.publishMessage(
@@ -193,18 +193,18 @@ export async function publishMessageCore(
 				result.pubSubName,
 				result.topic,
 				result.payload,
-				token
+				token,
 			);
 
 			outputChannel.appendLine(
 				localize(
 					"commands.publishMessage.publishSucceededMessage",
-					"Message published"
-				)
+					"Message published",
+				),
 			);
 
 			outputChannel.show();
-		}
+		},
 	);
 }
 
@@ -214,10 +214,10 @@ export async function publishAllMessage(
 	daprClient: DaprClient,
 	outputChannel: vscode.OutputChannel,
 	ui: UserInput,
-	workspaceState: vscode.Memento
+	workspaceState: vscode.Memento,
 ): Promise<void> {
 	const applications = await firstValueFrom(
-		daprApplicationProvider.applications
+		daprApplicationProvider.applications,
 	);
 
 	// Published messages go to all applications, regardless of the application through which they are published, so use the first one...
@@ -228,7 +228,7 @@ export async function publishAllMessage(
 		outputChannel,
 		ui,
 		workspaceState,
-		applications[0]
+		applications[0],
 	);
 }
 
@@ -239,7 +239,7 @@ export function publishMessage(
 	outputChannel: vscode.OutputChannel,
 	ui: UserInput,
 	workspaceState: vscode.Memento,
-	node: DaprApplicationNode | undefined
+	node: DaprApplicationNode | undefined,
 ): Promise<void> {
 	return publishMessageCore(
 		context,
@@ -248,7 +248,7 @@ export function publishMessage(
 		outputChannel,
 		ui,
 		workspaceState,
-		node?.application
+		node?.application,
 	);
 }
 
@@ -258,7 +258,7 @@ export const createPublishAllMessageCommand =
 		daprClient: DaprClient,
 		outputChannel: vscode.OutputChannel,
 		ui: UserInput,
-		workspaceState: vscode.Memento
+		workspaceState: vscode.Memento,
 	) =>
 	(context: IActionContext): Promise<void> =>
 		publishAllMessage(
@@ -267,7 +267,7 @@ export const createPublishAllMessageCommand =
 			daprClient,
 			outputChannel,
 			ui,
-			workspaceState
+			workspaceState,
 		);
 export const createPublishMessageCommand =
 	(
@@ -275,11 +275,11 @@ export const createPublishMessageCommand =
 		daprClient: DaprClient,
 		outputChannel: vscode.OutputChannel,
 		ui: UserInput,
-		workspaceState: vscode.Memento
+		workspaceState: vscode.Memento,
 	) =>
 	(
 		context: IActionContext,
-		node: DaprApplicationNode | undefined
+		node: DaprApplicationNode | undefined,
 	): Promise<void> =>
 		publishMessage(
 			context,
@@ -288,5 +288,5 @@ export const createPublishMessageCommand =
 			outputChannel,
 			ui,
 			workspaceState,
-			node
+			node,
 		);

@@ -3,15 +3,15 @@
 
 import * as vscode from "vscode";
 import * as nls from "vscode-nls";
-import TreeNode from "../treeNode";
 import { getLocalizationPathForFile } from "../../util/localization";
+import TreeNode from "../treeNode";
 
 const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 export default class ReviewIssuesNode implements TreeNode {
 	getTreeItem(): Promise<vscode.TreeItem> {
 		const treeItem = new vscode.TreeItem(
-			localize("views.reviewIssues.label", "Review Issues")
+			localize("views.reviewIssues.label", "Review Issues"),
 		);
 
 		treeItem.command = {

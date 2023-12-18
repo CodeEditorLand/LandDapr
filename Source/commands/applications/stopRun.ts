@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as nls from "vscode-nls";
-import * as vscode from "vscode";
 import { IActionContext } from "@microsoft/vscode-azext-utils";
-import { DaprRunNode } from "../../views/applications/daprRunNode";
-import { getLocalizationPathForFile } from "../../util/localization";
+import * as vscode from "vscode";
+import * as nls from "vscode-nls";
 import { DaprCliClient } from "../../services/daprCliClient";
+import { getLocalizationPathForFile } from "../../util/localization";
+import { DaprRunNode } from "../../views/applications/daprRunNode";
 
 const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
@@ -14,12 +14,12 @@ async function stopRun(
 	context: IActionContext,
 	label: string,
 	runTemplatePath: string,
-	daprCliClient: DaprCliClient
+	daprCliClient: DaprCliClient,
 ): Promise<void> {
 	const stopItem: vscode.MessageItem = {
 		title: localize(
 			"commands.applications.stopRun.stopItemTitle",
-			"Stop Run"
+			"Stop Run",
 		),
 	};
 
@@ -27,16 +27,16 @@ async function stopRun(
 		localize(
 			"commands.applications.stopRun.confirmationMessage",
 			"Stop the Dapr run '{0}'?",
-			label
+			label,
 		),
 		{
 			detail: localize(
 				"commands.applications.stopRun.detailMessage",
-				"All applications associated with the run will be stopped."
+				"All applications associated with the run will be stopped.",
 			),
 			modal: true,
 		},
-		stopItem
+		stopItem,
 	);
 
 	if (selectedItem === stopItem) {
@@ -51,8 +51,8 @@ const createStopRunCommand =
 			throw new Error(
 				localize(
 					"commands.applications.stopRun.noPaletteSupport",
-					"Stopping requires selecting a valid run in the Dapr view."
-				)
+					"Stopping requires selecting a valid run in the Dapr view.",
+				),
 			);
 		}
 
@@ -60,7 +60,7 @@ const createStopRunCommand =
 			context,
 			node.label,
 			node.runTemplatePath,
-			daprCliClient
+			daprCliClient,
 		);
 	};
 

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as vscode from "vscode";
-import DaprApplicationNode from "../../views/applications/daprApplicationNode";
-import { DaprApplicationProvider } from "../../services/daprApplicationProvider";
-import { UserInput } from "../../services/userInput";
-import { DaprClient } from "../../services/daprClient";
-import { invoke } from "./invokeCommon";
 import { IActionContext } from "@microsoft/vscode-azext-utils";
+import * as vscode from "vscode";
+import { DaprApplicationProvider } from "../../services/daprApplicationProvider";
+import { DaprClient } from "../../services/daprClient";
+import { UserInput } from "../../services/userInput";
+import DaprApplicationNode from "../../views/applications/daprApplicationNode";
+import { invoke } from "./invokeCommon";
 
 export async function invokePost(
 	context: IActionContext,
@@ -16,7 +16,7 @@ export async function invokePost(
 	outputChannel: vscode.OutputChannel,
 	ui: UserInput,
 	workspaceState: vscode.Memento,
-	node: DaprApplicationNode | undefined
+	node: DaprApplicationNode | undefined,
 ): Promise<void> {
 	return invoke(
 		context,
@@ -26,7 +26,7 @@ export async function invokePost(
 		ui,
 		workspaceState,
 		node?.application,
-		/* isPost: */ true
+		/* isPost: */ true,
 	);
 }
 
@@ -36,11 +36,11 @@ const createInvokePostCommand =
 		daprClient: DaprClient,
 		outputChannel: vscode.OutputChannel,
 		ui: UserInput,
-		workspaceState: vscode.Memento
+		workspaceState: vscode.Memento,
 	) =>
 	(
 		context: IActionContext,
-		node: DaprApplicationNode | undefined
+		node: DaprApplicationNode | undefined,
 	): Promise<void> =>
 		invokePost(
 			context,
@@ -49,7 +49,7 @@ const createInvokePostCommand =
 			outputChannel,
 			ui,
 			workspaceState,
-			node
+			node,
 		);
 
 export default createInvokePostCommand;

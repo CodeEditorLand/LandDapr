@@ -97,7 +97,7 @@ export const config: webpack.Configuration = {
 						}
 					}
 				}
-			},
+			}
 		),
 	],
 	resolve: {

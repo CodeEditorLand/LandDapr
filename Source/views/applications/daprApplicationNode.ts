@@ -10,13 +10,13 @@ import { DaprClient } from "../../services/daprClient";
 export default class DaprApplicationNode implements TreeNode {
 	constructor(
 		public readonly application: DaprApplication,
-		public readonly daprClient: DaprClient,
+		public readonly daprClient: DaprClient
 	) {}
 
 	getTreeItem(): Promise<vscode.TreeItem> {
 		const item = new vscode.TreeItem(
 			this.application.appId,
-			vscode.TreeItemCollapsibleState.Collapsed,
+			vscode.TreeItemCollapsibleState.Collapsed
 		);
 
 		item.contextValue = [
@@ -29,9 +29,7 @@ export default class DaprApplicationNode implements TreeNode {
 			this.application.runTemplatePath ? "hasLogs" : "",
 		].join(" ");
 		item.iconPath = new vscode.ThemeIcon(
-			this.application.appPid !== undefined
-				? "server-process"
-				: "browser",
+			this.application.appPid !== undefined ? "server-process" : "browser"
 		);
 
 		return Promise.resolve(item);

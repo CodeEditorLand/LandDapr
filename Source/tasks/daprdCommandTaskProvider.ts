@@ -61,7 +61,7 @@ export default class DaprdCommandTaskProvider extends CommandTaskProvider {
 		daprInstallationManager: DaprInstallationManager,
 		daprdPathProvider: () => string,
 		environmentProvider: EnvironmentProvider,
-		telemetryProvider: TelemetryProvider,
+		telemetryProvider: TelemetryProvider
 	) {
 		super(
 			(definition, callback) => {
@@ -69,48 +69,48 @@ export default class DaprdCommandTaskProvider extends CommandTaskProvider {
 					"vscode-dapr.tasks.daprd",
 					async (context: IActionContext) => {
 						await daprInstallationManager.ensureInitialized(
-							context.errorHandling,
+							context.errorHandling
 						);
 
 						const daprDefinition =
 							definition as DaprdTaskDefinition;
 
 						const command = CommandLineBuilder.create(
-							daprdPathProvider(),
+							daprdPathProvider()
 						)
 							.withNamedArg(
 								"--allowed-origins",
-								daprDefinition.allowedOrigins,
+								daprDefinition.allowedOrigins
 							)
 							.withNamedArg(
 								"--app-channel-address",
-								daprDefinition.appChannelAddress,
+								daprDefinition.appChannelAddress
 							)
 							.withNamedArg(
 								"--app-health-check-path",
-								daprDefinition.appHealthCheckPath,
+								daprDefinition.appHealthCheckPath
 							)
 							.withNamedArg(
 								"--app-health-probe-interval",
-								daprDefinition.appHealthProbeInterval,
+								daprDefinition.appHealthProbeInterval
 							)
 							.withNamedArg(
 								"--app-health-probe-timeout",
-								daprDefinition.appHealthProbeTimeout,
+								daprDefinition.appHealthProbeTimeout
 							)
 							.withNamedArg(
 								"--app-health-threshold",
-								daprDefinition.appHealthThreshold,
+								daprDefinition.appHealthThreshold
 							)
 							.withNamedArg("--app-id", daprDefinition.appId)
 							.withNamedArg(
 								"--app-max-concurrency",
-								daprDefinition.appMaxConcurrency,
+								daprDefinition.appMaxConcurrency
 							)
 							.withNamedArg("--app-port", daprDefinition.appPort)
 							.withNamedArg(
 								"--app-protocol",
-								daprDefinition.appProtocol,
+								daprDefinition.appProtocol
 							)
 							.withNamedArg("--app-ssl", daprDefinition.appSsl, {
 								assignValue: true,
@@ -121,87 +121,87 @@ export default class DaprdCommandTaskProvider extends CommandTaskProvider {
 									path.join(
 										os.homedir(),
 										".dapr",
-										"components",
-									),
+										"components"
+									)
 							)
 							.withNamedArg("--config", daprDefinition.config)
 							.withNamedArg(
 								"--control-plane-address",
-								daprDefinition.controlPlaneAddress,
+								daprDefinition.controlPlaneAddress
 							)
 							.withNamedArg(
 								"--dapr-graceful-shutdown-seconds",
-								daprDefinition.gracefulShutdownSeconds,
+								daprDefinition.gracefulShutdownSeconds
 							)
 							.withNamedArg(
 								"--dapr-grpc-port",
-								daprDefinition.grpcPort,
+								daprDefinition.grpcPort
 							)
 							.withNamedArg(
 								"--dapr-http-max-request-size",
-								daprDefinition.httpMaxRequestSize,
+								daprDefinition.httpMaxRequestSize
 							)
 							.withNamedArg(
 								"--dapr-http-port",
-								daprDefinition.httpPort,
+								daprDefinition.httpPort
 							)
 							.withNamedArg(
 								"--dapr-http-read-buffer-size",
-								daprDefinition.httpReadBufferSize,
+								daprDefinition.httpReadBufferSize
 							)
 							.withNamedArg(
 								"--dapr-internal-grpc-port",
-								daprDefinition.internalGrpcPort,
+								daprDefinition.internalGrpcPort
 							)
 							.withNamedArg(
 								"--dapr-listen-addresses",
-								daprDefinition.listenAddresses,
+								daprDefinition.listenAddresses
 							)
 							.withNamedArg(
 								"--dapr-public-port",
-								daprDefinition.publicPort,
+								daprDefinition.publicPort
 							)
 							.withNamedArg(
 								"--enable-api-logging",
 								daprDefinition.enableApiLogging,
-								{ assignValue: true },
+								{ assignValue: true }
 							)
 							.withNamedArg(
 								"--enable-app-health-check",
 								daprDefinition.enableHealthCheck,
-								{ assignValue: true },
+								{ assignValue: true }
 							)
 							.withNamedArg(
 								"--enable-metrics",
 								daprDefinition.enableMetrics,
-								{ assignValue: true },
+								{ assignValue: true }
 							)
 							.withNamedArg(
 								"--enable-mtls",
 								daprDefinition.enableMtls,
-								{ assignValue: true },
+								{ assignValue: true }
 							)
 							.withNamedArg(
 								"--enable-profiling",
 								daprDefinition.enableProfiling,
-								{ assignValue: true },
+								{ assignValue: true }
 							)
 							.withNamedArg(
 								"--kubeconfig",
-								daprDefinition.kubeConfig,
+								daprDefinition.kubeConfig
 							)
 							.withNamedArg(
 								"--log-as-json",
 								daprDefinition.logAsJson,
-								{ assignValue: true },
+								{ assignValue: true }
 							)
 							.withNamedArg(
 								"--log-level",
-								daprDefinition.logLevel,
+								daprDefinition.logLevel
 							)
 							.withNamedArg(
 								"--metrics-port",
-								daprDefinition.metricsPort,
+								daprDefinition.metricsPort
 							)
 							.withNamedArg("--mode", daprDefinition.mode)
 							.withNamedArg(
@@ -215,37 +215,37 @@ export default class DaprdCommandTaskProvider extends CommandTaskProvider {
 										environmentProvider.isWindows
 											? 6050
 											: 50005
-									}` /* NOTE: The placement address is actually required for daprd. */,
+									}` /* NOTE: The placement address is actually required for daprd. */
 							)
 							.withNamedArg(
 								"--profile-port",
-								daprDefinition.profilePort,
+								daprDefinition.profilePort
 							)
 							.withNamedArg(
 								"--resources-path",
-								daprDefinition.resourcesPath,
+								daprDefinition.resourcesPath
 							)
 							.withArrayArgs(
 								"--resources-path",
-								daprDefinition.resourcesPaths,
+								daprDefinition.resourcesPaths
 							)
 							.withNamedArg(
 								"--sentry-address",
-								daprDefinition.sentryAddress,
+								daprDefinition.sentryAddress
 							)
 							.withNamedArg(
 								"--unix-domain-socket",
-								daprDefinition.unixDomainSocket,
+								daprDefinition.unixDomainSocket
 							)
 							.withArgs(daprDefinition.args)
 							.build();
 
 						await callback(command, { cwd: definition.cwd });
-					},
+					}
 				);
 			},
 			/* isBackgroundTask: */ true,
-			/* problemMatchers: */ ["$dapr"],
+			/* problemMatchers: */ ["$dapr"]
 		);
 	}
 }

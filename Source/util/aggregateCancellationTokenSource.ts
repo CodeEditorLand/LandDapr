@@ -8,7 +8,7 @@ export async function withAggregateTokens<T>(
 	...tokens: (vscode.CancellationToken | undefined)[]
 ): Promise<T> {
 	const cancellationTokenSource = new AggregateCancellationTokenSource(
-		...tokens,
+		...tokens
 	);
 	try {
 		return await callback(cancellationTokenSource.token);
@@ -23,8 +23,8 @@ export default class AggregateCancellationTokenSource extends vscode.Cancellatio
 	constructor(...tokens: (vscode.CancellationToken | undefined)[]) {
 		super();
 
-		this.listeners = tokens.map((token) =>
-			token?.onCancellationRequested(() => this.cancel()),
+		this.listeners = tokens.map(
+			(token) => token?.onCancellationRequested(() => this.cancel())
 		);
 	}
 

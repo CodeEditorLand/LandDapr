@@ -35,7 +35,7 @@ export default class DetailsTreeDataProvider
 			(selectedItems) => {
 				this.selectedItems = selectedItems;
 				this.onDidChangeTreeDataEmitter.fire(undefined);
-			},
+			}
 		);
 	}
 
@@ -46,7 +46,7 @@ export default class DetailsTreeDataProvider
 	}
 
 	getTreeItem(
-		element: TreeNode,
+		element: TreeNode
 	): vscode.TreeItem | Thenable<vscode.TreeItem> {
 		return element.getTreeItem();
 	}
@@ -68,23 +68,23 @@ export default class DetailsTreeDataProvider
 	setAppDetails(application: DaprApplication): DaprDetailsNode[] {
 		const appID = localize(
 			"views.details.detailsTreeDataProvider.appID",
-			"App ID",
+			"App ID"
 		);
 		const appPort = localize(
 			"views.details.detailsTreeDataProvider.appPort",
-			"App Port",
+			"App Port"
 		);
 		const httpPort = localize(
 			"views.details.detailsTreeDataProvider.httpPort",
-			"Dapr HTTP Port",
+			"Dapr HTTP Port"
 		);
 		const grpcPort = localize(
 			"views.details.detailsTreeDataProvider.grpcPort",
-			"Dapr GRPC Port",
+			"Dapr GRPC Port"
 		);
 		const pid = localize(
 			"views.details.detailsTreeDataProvider.pid",
-			"Dapr Process ID",
+			"Dapr Process ID"
 		);
 
 		return [
@@ -93,7 +93,7 @@ export default class DetailsTreeDataProvider
 				appPort,
 				application?.appPort !== undefined
 					? application?.appPort.toString()
-					: "None",
+					: "None"
 			),
 			new DaprDetailsNode(httpPort, application?.httpPort.toString()),
 			new DaprDetailsNode(grpcPort, application?.grpcPort.toString()),
@@ -104,15 +104,15 @@ export default class DetailsTreeDataProvider
 	setComponentDetails(component: DaprComponentMetadata): DaprDetailsNode[] {
 		const name = localize(
 			"views.details.detailsTreeDataProvider.name",
-			"Name",
+			"Name"
 		);
 		const type = localize(
 			"views.details.detailsTreeDataProvider.type",
-			"Type",
+			"Type"
 		);
 		const version = localize(
 			"views.details.detailsTreeDataProvider.version",
-			"Version",
+			"Version"
 		);
 
 		return [

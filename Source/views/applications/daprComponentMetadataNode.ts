@@ -8,7 +8,7 @@ import TreeNode from "../treeNode";
 export default class DaprComponentMetadataNode implements TreeNode {
 	constructor(
 		public readonly daprComponentMetadata: DaprComponentMetadata,
-		private readonly themeIconId: string,
+		private readonly themeIconId: string
 	) {}
 
 	getTreeItem(): Promise<vscode.TreeItem> {

@@ -8,11 +8,11 @@ import { ConflictHandler } from "./conflicts";
 export type TaskContentFactory = (label: string) => TaskDefinition;
 
 export function getWorkspaceTasks(
-	folder: vscode.WorkspaceFolder,
+	folder: vscode.WorkspaceFolder
 ): TaskDefinition[] {
 	const workspaceConfigurations = vscode.workspace.getConfiguration(
 		"tasks",
-		folder.uri,
+		folder.uri
 	);
 
 	return <TaskDefinition[]>workspaceConfigurations.tasks ?? [];
@@ -22,11 +22,11 @@ export default async function scaffoldTask(
 	label: string,
 	folder: vscode.WorkspaceFolder,
 	contentFactory: TaskContentFactory,
-	onConflict: ConflictHandler,
+	onConflict: ConflictHandler
 ): Promise<string | undefined> {
 	const workspaceConfigurations = vscode.workspace.getConfiguration(
 		"tasks",
-		folder.uri,
+		folder.uri
 	);
 	const workspaceTasks: TaskDefinition[] =
 		<TaskDefinition[]>workspaceConfigurations.tasks ?? [];
@@ -40,7 +40,7 @@ export default async function scaffoldTask(
 	if (conflictingTaskIndex >= 0) {
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const result = await onConflict(label, (targetLabel) =>
-			Promise.resolve(getConflictingIndex(targetLabel) === -1),
+			Promise.resolve(getConflictingIndex(targetLabel) === -1)
 		);
 
 		switch (result.type) {
@@ -66,7 +66,7 @@ export default async function scaffoldTask(
 	await workspaceConfigurations.update(
 		"tasks",
 		workspaceTasks,
-		vscode.ConfigurationTarget.WorkspaceFolder,
+		vscode.ConfigurationTarget.WorkspaceFolder
 	);
 
 	return label;

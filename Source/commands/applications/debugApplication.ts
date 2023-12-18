@@ -17,14 +17,14 @@ type AttachBehavior = () => Promise<void>;
 async function attachToProcess(
 	application: DaprApplication,
 	type: string,
-	pid: number,
+	pid: number
 ): Promise<void> {
 	const configuration: vscode.DebugConfiguration = {
 		name: localize(
 			"commands.applications.debugApplication.sessionLabel",
 			"Dapr: {0} ({1})",
 			application.appId,
-			pid,
+			pid
 		),
 		request: "attach",
 		processId: pid.toString(),
@@ -33,27 +33,27 @@ async function attachToProcess(
 
 	await vscode.debug.startDebugging(
 		vscode.workspace.workspaceFolders?.[0],
-		configuration,
+		configuration
 	);
 }
 
 function attachToDotnetProcess(
 	application: DaprApplication,
-	pid: number,
+	pid: number
 ): Promise<void> {
 	return attachToProcess(application, "coreclr", pid);
 }
 
 function attachToNodeProcess(
 	application: DaprApplication,
-	pid: number,
+	pid: number
 ): Promise<void> {
 	return attachToProcess(application, "node", pid);
 }
 
 async function attachToPythonProcess(
 	application: DaprApplication,
-	pid: number,
+	pid: number
 ): Promise<void> {
 	// NOTE: I've yet to see this succeed (the adaptor can't seem to attach to the process).
 	return attachToProcess(application, "python", pid);
@@ -62,7 +62,7 @@ async function attachToPythonProcess(
 function getAttachBehavior(
 	application: DaprApplication,
 	process: ProcessDescriptor,
-	processes: ProcessDescriptor[],
+	processes: ProcessDescriptor[]
 ): AttachBehavior | undefined {
 	const executable = path.basename(process.name);
 
@@ -74,15 +74,15 @@ function getAttachBehavior(
 			//
 
 			const childProcesses = processes.filter(
-				(p) => p.ppid === process.pid,
+				(p) => p.ppid === process.pid
 			);
 
 			if (childProcesses.length !== 1) {
 				throw new Error(
 					localize(
 						"commands.applications.debugApplication.tooManyDotnetProcesses",
-						"Unable to determine the child process of the .NET application to attach to.",
-					),
+						"Unable to determine the child process of the .NET application to attach to."
+					)
 				);
 			}
 
@@ -103,22 +103,22 @@ function getAttachBehavior(
 }
 
 export async function debugApplication(
-	application: DaprApplication,
+	application: DaprApplication
 ): Promise<void> {
 	if (application.appPid === undefined) {
 		throw new Error(
 			localize(
 				"commands.applications.debugApplication.noAppProcess",
 				"No process is associated with the application '{0}'.",
-				application.appId,
-			),
+				application.appId
+			)
 		);
 	}
 
 	const processes = await psList();
 
 	const applicationCommandProcess = processes.find(
-		(process) => process.pid === application.appPid,
+		(process) => process.pid === application.appPid
 	);
 
 	if (applicationCommandProcess === undefined) {
@@ -126,8 +126,8 @@ export async function debugApplication(
 			localize(
 				"commands.applications.debugApplication.processNotFound",
 				"The process associated with the application '{0}' is not running.",
-				application.appId,
-			),
+				application.appId
+			)
 		);
 	}
 
@@ -145,9 +145,7 @@ export async function debugApplication(
 
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		children.push(
-			...processes.filter(
-				(process) => process.ppid === childProcess!.pid,
-			),
+			...processes.filter((process) => process.ppid === childProcess!.pid)
 		);
 	}
 
@@ -156,8 +154,8 @@ export async function debugApplication(
 			localize(
 				"commands.applications.debugApplication.processNotRecognized",
 				"Unable to find an attachable process for the application '{0}'.",
-				application.appId,
-			),
+				application.appId
+			)
 		);
 	}
 
@@ -168,14 +166,14 @@ const createDebugApplicationCommand =
 	() =>
 	(
 		context: IActionContext,
-		node: DaprApplicationNode | undefined,
+		node: DaprApplicationNode | undefined
 	): Promise<void> => {
 		if (node === undefined) {
 			throw new Error(
 				localize(
 					"commands.applications.viewLogs.noPaletteSupport",
-					"Debugging requires selecting an application in the Dapr view.",
-				),
+					"Debugging requires selecting an application in the Dapr view."
+				)
 			);
 		}
 

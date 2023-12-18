@@ -52,7 +52,7 @@ export default class DaprListBasedDaprApplicationProvider
 		this.applications = timer(0, 2000).pipe(
 			switchMap(() => this.getApplications()),
 			distinctUntilChanged(isequal),
-			shareReplay(1),
+			shareReplay(1)
 		);
 	}
 
@@ -61,7 +61,7 @@ export default class DaprListBasedDaprApplicationProvider
 	async getApplications(): Promise<DaprApplication[]> {
 		const command = CommandLineBuilder.create(
 			this.daprPathProvider(),
-			"list",
+			"list"
 		)
 			.withNamedArg("--output", "json")
 			.build();
@@ -70,7 +70,7 @@ export default class DaprListBasedDaprApplicationProvider
 
 		if (result.code !== 0) {
 			throw new Error(
-				`'${command}' failed with exit code ${result.code}.`,
+				`'${command}' failed with exit code ${result.code}.`
 			);
 		}
 

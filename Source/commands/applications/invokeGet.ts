@@ -16,7 +16,7 @@ export async function invokeGet(
 	outputChannel: vscode.OutputChannel,
 	ui: UserInput,
 	workspaceState: vscode.Memento,
-	node: DaprApplicationNode | undefined,
+	node: DaprApplicationNode | undefined
 ): Promise<void> {
 	return invoke(
 		context,
@@ -25,7 +25,7 @@ export async function invokeGet(
 		outputChannel,
 		ui,
 		workspaceState,
-		node?.application,
+		node?.application
 	);
 }
 
@@ -35,11 +35,11 @@ const createInvokeGetCommand =
 		daprClient: DaprClient,
 		outputChannel: vscode.OutputChannel,
 		ui: UserInput,
-		workspaceState: vscode.Memento,
+		workspaceState: vscode.Memento
 	) =>
 	(
 		context: IActionContext,
-		node: DaprApplicationNode | undefined,
+		node: DaprApplicationNode | undefined
 	): Promise<void> =>
 		invokeGet(
 			context,
@@ -48,7 +48,7 @@ const createInvokeGetCommand =
 			outputChannel,
 			ui,
 			workspaceState,
-			node,
+			node
 		);
 
 export default createInvokeGetCommand;

@@ -8,7 +8,7 @@ import TaskPseudoterminalWriter, {
 
 export type TaskPseudoterminalCallback = (
 	writer: PseudoterminalWriter,
-	cts: vscode.CancellationToken,
+	cts: vscode.CancellationToken
 ) => Promise<number | void>;
 
 export default class TaskPseudoterminal
@@ -40,7 +40,7 @@ export default class TaskPseudoterminal
 			new TaskPseudoterminalWriter((output: string) => {
 				this.writeEmitter.fire(output);
 			}),
-			this.cts.token,
+			this.cts.token
 		)
 			.then((value) => this.closeWithValue(value))
 			.catch(() => this.closeWithValue());

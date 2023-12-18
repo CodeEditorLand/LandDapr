@@ -22,19 +22,19 @@ export interface HttpClient {
 	get(
 		url: string,
 		options?: HttpOptions,
-		token?: vscode.CancellationToken,
+		token?: vscode.CancellationToken
 	): Promise<HttpResponse>;
 	post(
 		url: string,
 		data?: unknown,
 		options?: HttpPostOptions,
-		token?: vscode.CancellationToken,
+		token?: vscode.CancellationToken
 	): Promise<HttpResponse>;
 }
 
 function createConfig(
 	allowRedirects: boolean | undefined,
-	token: CancelToken,
+	token: CancelToken
 ): AxiosRequestConfig {
 	const config: AxiosRequestConfig = {
 		cancelToken: token,
@@ -53,7 +53,7 @@ export default class AxiosHttpClient implements HttpClient {
 	async get(
 		url: string,
 		options?: HttpOptions,
-		token?: vscode.CancellationToken,
+		token?: vscode.CancellationToken
 	): Promise<HttpResponse> {
 		const cancelTokenSource = axios.CancelToken.source();
 		const tokenListener = token
@@ -63,7 +63,7 @@ export default class AxiosHttpClient implements HttpClient {
 		try {
 			const response = await axios.get<unknown>(
 				url,
-				createConfig(options?.allowRedirects, cancelTokenSource.token),
+				createConfig(options?.allowRedirects, cancelTokenSource.token)
 			);
 
 			return {
@@ -82,7 +82,7 @@ export default class AxiosHttpClient implements HttpClient {
 		url: string,
 		data?: unknown,
 		options?: HttpPostOptions,
-		token?: vscode.CancellationToken,
+		token?: vscode.CancellationToken
 	): Promise<HttpResponse> {
 		const cancelTokenSource = axios.CancelToken.source();
 		const tokenListener = token
@@ -91,7 +91,7 @@ export default class AxiosHttpClient implements HttpClient {
 
 		const config = createConfig(
 			options?.allowRedirects,
-			cancelTokenSource.token,
+			cancelTokenSource.token
 		);
 
 		if (data !== undefined && options?.json) {
@@ -106,7 +106,7 @@ export default class AxiosHttpClient implements HttpClient {
 				data !== undefined && options?.json
 					? JSON.stringify(data)
 					: data,
-				config,
+				config
 			);
 
 			return {

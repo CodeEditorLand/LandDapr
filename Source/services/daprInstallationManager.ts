@@ -14,14 +14,14 @@ export interface DaprInstallationManager {
 	ensureInstalled(context?: IErrorHandlingContext): Promise<void>;
 	ensureInstalledVersion(
 		cliVersion: string,
-		context?: IErrorHandlingContext,
+		context?: IErrorHandlingContext
 	): Promise<void>;
 
 	ensureInitialized(context?: IErrorHandlingContext): Promise<void>;
 	ensureInitializedVersion(
 		cliVersion: string,
 		runtimeVersion: string,
-		context?: IErrorHandlingContext,
+		context?: IErrorHandlingContext
 	): Promise<void>;
 
 	isInstalled(): Promise<boolean>;
@@ -30,7 +30,7 @@ export interface DaprInstallationManager {
 	isInitialized(): Promise<boolean>;
 	isVersionInitialized(
 		cliVersion: string,
-		runtimeVersion: string,
+		runtimeVersion: string
 	): Promise<boolean>;
 }
 
@@ -42,7 +42,7 @@ const localCliBuildVersion = "edge";
 
 function isCliSemverSatisfied(
 	version: string | undefined,
-	range: string,
+	range: string
 ): boolean {
 	return (
 		version === localCliBuildVersion ||
@@ -60,7 +60,7 @@ export default class LocalDaprInstallationManager
 		private readonly expectedCliVersion: string,
 		private readonly expectedRuntimeVersion: string,
 		private readonly daprCliClient: DaprCliClient,
-		private readonly ui: UserInput,
+		private readonly ui: UserInput
 	) {}
 
 	ensureInstalled(context?: IErrorHandlingContext): Promise<void> {
@@ -69,7 +69,7 @@ export default class LocalDaprInstallationManager
 
 	async ensureInstalledVersion(
 		cliVersion: string,
-		context?: IErrorHandlingContext,
+		context?: IErrorHandlingContext
 	): Promise<void> {
 		const isVersionInstalled = await this.isVersionInstalled(cliVersion);
 
@@ -79,8 +79,8 @@ export default class LocalDaprInstallationManager
 			throw new Error(
 				localize(
 					"services.daprInstallationManager.versionNotInstalled",
-					"A compatible version of the Dapr CLI has not been found. You may need to install a more recent version.",
-				),
+					"A compatible version of the Dapr CLI has not been found. You may need to install a more recent version."
+				)
 			);
 		}
 	}
@@ -89,18 +89,18 @@ export default class LocalDaprInstallationManager
 		return this.ensureInitializedVersion(
 			this.expectedCliVersion,
 			this.expectedRuntimeVersion,
-			context,
+			context
 		);
 	}
 
 	async ensureInitializedVersion(
 		cliVersion: string,
 		runtimeVersion: string,
-		context?: IErrorHandlingContext,
+		context?: IErrorHandlingContext
 	): Promise<void> {
 		const isVersionInitialized = await this.isVersionInitialized(
 			cliVersion,
-			runtimeVersion,
+			runtimeVersion
 		);
 
 		if (!isVersionInitialized) {
@@ -109,8 +109,8 @@ export default class LocalDaprInstallationManager
 			throw new Error(
 				localize(
 					"services.daprInstallationManager.versionNotInitialized",
-					"A compatible version of Dapr has not been initialized. You may need to install a more recent version.",
-				),
+					"A compatible version of Dapr has not been initialized. You may need to install a more recent version."
+				)
 			);
 		}
 	}
@@ -142,13 +142,13 @@ export default class LocalDaprInstallationManager
 	isInitialized(): Promise<boolean> {
 		return this.isVersionInitialized(
 			this.expectedCliVersion,
-			this.expectedRuntimeVersion,
+			this.expectedRuntimeVersion
 		);
 	}
 
 	async isVersionInitialized(
 		cliVersion: string,
-		runtimeVersion: string,
+		runtimeVersion: string
 	): Promise<boolean> {
 		if (
 			this.satisfiedCliVersions.has(cliVersion) &&
@@ -191,19 +191,19 @@ export default class LocalDaprInstallationManager
 	}
 
 	private setErrorHandlingContext(
-		context: IErrorHandlingContext | undefined,
+		context: IErrorHandlingContext | undefined
 	): void {
 		if (context) {
 			context.buttons = [
 				{
 					callback: async () => {
 						await this.ui.executeCommand(
-							"vscode-dapr.help.installDapr",
+							"vscode-dapr.help.installDapr"
 						);
 					},
 					title: localize(
 						"services.daprInstallationManager.installLatestTitle",
-						"Install Latest Dapr",
+						"Install Latest Dapr"
 					),
 				},
 			];

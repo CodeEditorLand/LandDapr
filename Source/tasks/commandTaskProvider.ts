@@ -13,19 +13,19 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 export type CommandTaskSpawnCallback = (
 	command: string,
-	options?: cp.SpawnOptions,
+	options?: cp.SpawnOptions
 ) => Promise<void>;
 export type CommandTaskProviderCallback = (
 	definition: TaskDefinition,
 	callback: CommandTaskSpawnCallback,
-	token?: vscode.CancellationToken,
+	token?: vscode.CancellationToken
 ) => Promise<void>;
 
 export default class CommandTaskProvider extends CustomExecutionTaskProvider {
 	constructor(
 		callback: CommandTaskProviderCallback,
 		isBackgroundTask?: boolean,
-		problemMatchers?: string[],
+		problemMatchers?: string[]
 	) {
 		super(
 			(definition, writer, token) => {
@@ -34,7 +34,7 @@ export default class CommandTaskProvider extends CustomExecutionTaskProvider {
 					async (command, options) => {
 						const outputHandler = new WrittenOutputHandler(
 							(data) => writer.write(data),
-							(data) => writer.write(data),
+							(data) => writer.write(data)
 						);
 
 						try {
@@ -53,8 +53,8 @@ export default class CommandTaskProvider extends CustomExecutionTaskProvider {
 									throw new Error(
 										localize(
 											"tasks.commandTaskProvider.noWorkspaceError",
-											"If no current working directory is set, you must open a workspace before running a Dapr task.",
-										),
+											"If no current working directory is set, you must open a workspace before running a Dapr task."
+										)
 									);
 								}
 
@@ -66,9 +66,9 @@ export default class CommandTaskProvider extends CustomExecutionTaskProvider {
 								localize(
 									"tasks.commandTaskProvider.executingMessage",
 									"> Executing command: {0} <",
-									command,
+									command
 								),
-								"bold",
+								"bold"
 							);
 							writer.writeLine("");
 
@@ -77,11 +77,11 @@ export default class CommandTaskProvider extends CustomExecutionTaskProvider {
 							outputHandler.dispose();
 						}
 					},
-					token,
+					token
 				);
 			},
 			isBackgroundTask,
-			problemMatchers,
+			problemMatchers
 		);
 	}
 }

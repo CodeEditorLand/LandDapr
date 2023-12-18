@@ -9,7 +9,7 @@ import { getLocalizationPathForFile } from "./localization";
 const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 export function fromCancellationToken(
-	cancellationToken: vscode.CancellationToken,
+	cancellationToken: vscode.CancellationToken
 ): Observable<void> {
 	return new Observable<void>((subscriber) => {
 		const listener = cancellationToken.onCancellationRequested(() => {
@@ -17,9 +17,9 @@ export function fromCancellationToken(
 				new Error(
 					localize(
 						"util.observableCancellationToken.cancellationRequested",
-						"Cancellation was requested.",
-					),
-				),
+						"Cancellation was requested."
+					)
+				)
 			);
 		});
 

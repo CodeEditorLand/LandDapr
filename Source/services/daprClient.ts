@@ -14,24 +14,24 @@ export interface DaprClient {
 	invokeGet(
 		application: DaprApplication,
 		method: string,
-		token?: vscode.CancellationToken,
+		token?: vscode.CancellationToken
 	): Promise<unknown>;
 	invokePost(
 		application: DaprApplication,
 		method: string,
 		payload?: unknown,
-		token?: vscode.CancellationToken,
+		token?: vscode.CancellationToken
 	): Promise<unknown>;
 	publishMessage(
 		application: DaprApplication,
 		pubSubName: string,
 		topic: string,
 		payload?: unknown,
-		token?: vscode.CancellationToken,
+		token?: vscode.CancellationToken
 	): Promise<void>;
 	getMetadata(
 		application: DaprApplication,
-		token?: vscode.CancellationToken,
+		token?: vscode.CancellationToken
 	): Promise<DaprMetadata>;
 }
 
@@ -51,8 +51,8 @@ function manageResponse(response: HttpResponse): unknown {
 					localize(
 						"services.daprClient.httpsRedirectError",
 						"The application redirected to the local HTTPS endpoint '{0}'. This is usually a mistake in application configuration. Dapr expects to invoke the application via HTTP.",
-						redirectionUrl,
-					),
+						redirectionUrl
+					)
 				);
 			}
 		}
@@ -61,7 +61,7 @@ function manageResponse(response: HttpResponse): unknown {
 			"services.daprClient.redirectionResponse",
 			"{0} Redirected to '{1}'",
 			response.status,
-			redirectionUrl,
+			redirectionUrl
 		);
 	}
 
@@ -74,14 +74,14 @@ export default class HttpDaprClient implements DaprClient {
 	async invokeGet(
 		application: DaprApplication,
 		method: string,
-		token?: vscode.CancellationToken | undefined,
+		token?: vscode.CancellationToken | undefined
 	): Promise<unknown> {
 		const originalUrl = `http://localhost:${application.httpPort}/v1.0/invoke/${application.appId}/method/${method}`;
 
 		const response = await this.httpClient.get(
 			originalUrl,
 			{ allowRedirects: false },
-			token,
+			token
 		);
 
 		return manageResponse(response);
@@ -91,7 +91,7 @@ export default class HttpDaprClient implements DaprClient {
 		application: DaprApplication,
 		method: string,
 		payload?: unknown,
-		token?: vscode.CancellationToken | undefined,
+		token?: vscode.CancellationToken | undefined
 	): Promise<unknown> {
 		const url = `http://localhost:${application.httpPort}/v1.0/invoke/${application.appId}/method/${method}`;
 
@@ -99,7 +99,7 @@ export default class HttpDaprClient implements DaprClient {
 			url,
 			payload,
 			{ allowRedirects: false, json: true },
-			token,
+			token
 		);
 
 		return manageResponse(response);
@@ -110,7 +110,7 @@ export default class HttpDaprClient implements DaprClient {
 		pubSubName: string,
 		topic: string,
 		payload?: unknown,
-		token?: vscode.CancellationToken,
+		token?: vscode.CancellationToken
 	): Promise<void> {
 		const url = `http://localhost:${application.httpPort}/v1.0/publish/${pubSubName}/${topic}`;
 
@@ -119,14 +119,14 @@ export default class HttpDaprClient implements DaprClient {
 
 	async getMetadata(
 		application: DaprApplication,
-		token?: vscode.CancellationToken | undefined,
+		token?: vscode.CancellationToken | undefined
 	): Promise<DaprMetadata> {
 		const originalUrl = `http://localhost:${application.httpPort}/v1.0/metadata`;
 
 		const response = await this.httpClient.get(
 			originalUrl,
 			{ allowRedirects: false },
-			token,
+			token
 		);
 
 		return manageResponse(response) as DaprMetadata;

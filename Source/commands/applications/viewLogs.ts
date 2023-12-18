@@ -14,23 +14,23 @@ export type DaprLogType = "app" | "daprd";
 
 export async function viewLogs(
 	application: DaprApplication,
-	type: DaprLogType,
+	type: DaprLogType
 ): Promise<void> {
 	if (!application.runTemplatePath) {
 		throw new Error(
 			localize(
 				"commands.applications.viewLogs.noRunFile",
-				"Logs can be viewed only when applications are started via a run file.",
-			),
+				"Logs can be viewed only when applications are started via a run file."
+			)
 		);
 	}
 
 	const runFile = await fromRunFilePath(
-		vscode.Uri.file(application.runTemplatePath),
+		vscode.Uri.file(application.runTemplatePath)
 	);
 
 	const runFileApplication = (runFile.apps ?? []).find(
-		(app) => application.appId === getAppId(app),
+		(app) => application.appId === getAppId(app)
 	);
 
 	if (!runFileApplication) {
@@ -39,8 +39,8 @@ export async function viewLogs(
 				"commands.applications.viewLogs.appNotFound",
 				"The application '{0}' was not found in the run file '{1}'.",
 				application.appId,
-				application.runTemplatePath,
-			),
+				application.runTemplatePath
+			)
 		);
 	}
 
@@ -50,8 +50,8 @@ export async function viewLogs(
 				"commands.applications.viewLogs.appDirNotFound",
 				"The directory for application '{0}' was not found in the run file '{1}'.",
 				application.appId,
-				application.runTemplatePath,
-			),
+				application.runTemplatePath
+			)
 		);
 	}
 
@@ -60,7 +60,7 @@ export async function viewLogs(
 		runFileDirectory,
 		runFileApplication.appDirPath,
 		".dapr",
-		"logs",
+		"logs"
 	);
 
 	const pattern = `${application.appId}_${type}_*.log`;
@@ -73,15 +73,15 @@ export async function viewLogs(
 			localize(
 				"commands.applications.viewLogs.logNotFound",
 				"No logs for application '{0}' were found.",
-				application.appId,
-			),
+				application.appId
+			)
 		);
 	}
 
 	const newestFile = files.reduce((newestFile, nextFile) =>
 		newestFile.fsPath.localeCompare(nextFile.fsPath) < 0
 			? nextFile
-			: newestFile,
+			: newestFile
 	);
 
 	await vscode.window.showTextDocument(newestFile);

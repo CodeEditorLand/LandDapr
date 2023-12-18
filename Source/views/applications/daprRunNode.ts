@@ -16,29 +16,29 @@ export class DaprRunNode implements TreeNode {
 		label: string,
 		runTemplatePath: string,
 		applications: DaprApplication[],
-		daprClient: DaprClient,
+		daprClient: DaprClient
 	): DaprRunNode {
 		return new DaprRunNode(
 			label,
 			runTemplatePath,
 			applications,
-			daprClient,
+			daprClient
 		);
 	}
 
 	public static CreateIndividualApplicationsNode(
 		applications: DaprApplication[],
-		daprClient: DaprClient,
+		daprClient: DaprClient
 	): DaprRunNode {
 		return new DaprRunNode(
 			localize(
 				"views.applications.daprRunNode.individualApplicationsLabel",
-				"Individual Applications",
+				"Individual Applications"
 			),
 			undefined,
 			applications,
 			daprClient,
-			true,
+			true
 		);
 	}
 
@@ -47,19 +47,19 @@ export class DaprRunNode implements TreeNode {
 		public readonly runTemplatePath: string | undefined,
 		public readonly applications: DaprApplication[],
 		private readonly daprClient: DaprClient,
-		private readonly isIndividualApplicationsNode: boolean = false,
+		private readonly isIndividualApplicationsNode: boolean = false
 	) {}
 
 	getTreeItem(): Promise<vscode.TreeItem> {
 		const item = new vscode.TreeItem(
 			this.label,
-			vscode.TreeItemCollapsibleState.Expanded,
+			vscode.TreeItemCollapsibleState.Expanded
 		);
 
 		item.contextValue = [
 			"run",
 			this.applications.some(
-				(application) => application.appPid !== undefined,
+				(application) => application.appPid !== undefined
 			)
 				? "attachable"
 				: "",
@@ -76,7 +76,7 @@ export class DaprRunNode implements TreeNode {
 	getChildren(): TreeNode[] {
 		return this.applications.map(
 			(application) =>
-				new DaprApplicationNode(application, this.daprClient),
+				new DaprApplicationNode(application, this.daprClient)
 		);
 	}
 }

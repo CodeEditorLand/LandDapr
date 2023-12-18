@@ -9,7 +9,7 @@ export function* range(start = 0): Generator<number, void, unknown> {
 
 export function* names(
 	prefix: string,
-	rangeGenerator: Generator<number, void, unknown>,
+	rangeGenerator: Generator<number, void, unknown>
 ): Generator<string, void, unknown> {
 	let index = rangeGenerator.next();
 

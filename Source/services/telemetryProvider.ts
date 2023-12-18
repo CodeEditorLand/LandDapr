@@ -16,13 +16,13 @@ interface ContextCommandTelemetryProperties extends TelemetryProperties {
 export interface TelemetryProvider {
 	callWithTelemetry<T>(
 		eventName: string,
-		action: (context: IActionContext) => Promise<T>,
+		action: (context: IActionContext) => Promise<T>
 	): Promise<T | undefined>;
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	registerCommandWithTelemetry(
 		commandId: string,
-		callback: (context: IActionContext, ...args: any[]) => unknown,
+		callback: (context: IActionContext, ...args: any[]) => unknown
 	): void;
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -32,14 +32,14 @@ export interface TelemetryProvider {
 			context: IActionContext,
 			node: T | undefined,
 			...args: any[]
-		) => unknown,
+		) => unknown
 	): void;
 }
 
 export default class AzureTelemetryProvider implements TelemetryProvider {
 	callWithTelemetry<T>(
 		eventName: string,
-		action: (context: IActionContext) => Promise<T>,
+		action: (context: IActionContext) => Promise<T>
 	): Promise<T | undefined> {
 		return callWithTelemetryAndErrorHandling<T>(eventName, action);
 	}
@@ -47,7 +47,7 @@ export default class AzureTelemetryProvider implements TelemetryProvider {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	registerCommandWithTelemetry(
 		commandId: string,
-		callback: (context: IActionContext, ...args: any[]) => unknown,
+		callback: (context: IActionContext, ...args: any[]) => unknown
 	): void {
 		registerCommand(commandId, callback);
 	}
@@ -59,7 +59,7 @@ export default class AzureTelemetryProvider implements TelemetryProvider {
 			context: IActionContext,
 			node: T | undefined,
 			...args: any[]
-		) => unknown,
+		) => unknown
 	): void {
 		this.registerCommandWithTelemetry(
 			commandId,
@@ -71,7 +71,7 @@ export default class AzureTelemetryProvider implements TelemetryProvider {
 
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 				return callback(context, node, ...args);
-			},
+			}
 		);
 	}
 }

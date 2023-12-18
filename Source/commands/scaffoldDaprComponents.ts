@@ -19,7 +19,7 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 async function scaffoldDaprComponents(
 	scaffolder: Scaffolder,
-	templateScaffolder: TemplateScaffolder,
+	templateScaffolder: TemplateScaffolder
 ): Promise<void> {
 	const rootWorkspaceFolderPath = (vscode.workspace.workspaceFolders ?? [])[0]
 		?.uri?.fsPath;
@@ -28,8 +28,8 @@ async function scaffoldDaprComponents(
 		throw new Error(
 			localize(
 				"commands.scaffoldDaprTasks.noWorkspaceError",
-				"To scaffold Dapr component files, first open a folder or workspace.",
-			),
+				"To scaffold Dapr component files, first open a folder or workspace."
+			)
 		);
 	}
 
@@ -46,19 +46,19 @@ async function scaffoldDaprComponents(
 		scaffolder,
 		templateScaffolder,
 		componentsPath,
-		onConflict,
+		onConflict
 	);
 	await scaffoldPubSubComponent(
 		scaffolder,
 		templateScaffolder,
 		componentsPath,
-		onConflict,
+		onConflict
 	);
 	await scaffoldZipkinComponent(
 		scaffolder,
 		templateScaffolder,
 		componentsPath,
-		onConflict,
+		onConflict
 	);
 
 	// TODO: Consider UX to prompt the user to update existing tasks' componentsPath property.

@@ -63,9 +63,10 @@ export default class LocalScaffolder implements Scaffolder {
 			);
 
 			switch (result.type) {
-				case "rename":
+				case "rename": {
 					path = result.name;
 					break;
+				}
 				case "skip":
 					return undefined;
 			}

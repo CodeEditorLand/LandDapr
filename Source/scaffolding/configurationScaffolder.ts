@@ -49,12 +49,14 @@ export default async function scaffoldConfiguration(
 		);
 
 		switch (result.type) {
-			case "overwrite":
+			case "overwrite": {
 				configurationIndex = conflictingConfigurationIndex;
 				break;
-			case "rename":
+			}
+			case "rename": {
 				name = result.name;
 				break;
+			}
 			case "skip":
 				return undefined;
 		}

@@ -18,7 +18,7 @@ if (process.env.VSCODE_DAPR_LOCALE) {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const localize = nls.config(options)();
 
-var actualExtension;
+let actualExtension;
 
 function getExtension(extensionPath) {
 	if (!actualExtension) {

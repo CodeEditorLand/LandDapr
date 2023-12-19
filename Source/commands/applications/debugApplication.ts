@@ -146,7 +146,7 @@ export async function debugApplication(
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		children.push(
 			...processes.filter(
-				(process) => process.ppid === childProcess!.pid,
+				(process) => process.ppid === childProcess?.pid,
 			),
 		);
 	}

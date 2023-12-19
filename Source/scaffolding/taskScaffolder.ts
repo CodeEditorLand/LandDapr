@@ -44,12 +44,14 @@ export default async function scaffoldTask(
 		);
 
 		switch (result.type) {
-			case "overwrite":
+			case "overwrite": {
 				taskIndex = conflictingTaskIndex;
 				break;
-			case "rename":
+			}
+			case "rename": {
 				label = result.name;
 				break;
+			}
 			case "skip":
 				return undefined;
 		}

@@ -75,7 +75,7 @@ export default class CommandLineBuilder {
 			typeof value === "number" ||
 			typeof value === "boolean"
 		) {
-			if (options && options.assignValue) {
+			if (options?.assignValue) {
 				this.withArg({
 					value: `${name}=${value}`,
 					quoting: vscode.ShellQuoting.Strong,

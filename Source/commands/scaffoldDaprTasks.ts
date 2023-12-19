@@ -121,7 +121,7 @@ function getDefaultPort(
 		case "pwa-node":
 			return Promise.resolve(NodePort);
 
-		case "python":
+		case "python": {
 			// "module": "flask" is a primary indicator of a Flask application...
 			if (configuration?.module === "flask") {
 				return Promise.resolve(FlaskPort);
@@ -139,6 +139,7 @@ function getDefaultPort(
 
 			// Django seems to have a slight edge over Flask in popularity, so default to that...
 			return Promise.resolve(DjangoPort);
+		}
 	}
 
 	return Promise.resolve(DefaultPort);
@@ -151,7 +152,7 @@ async function createUniqueName(
 	const nameGenerator = names(prefix, range(1));
 	let name = nameGenerator.next();
 
-	while (!name.done && !(await isUnique(name.value))) {
+	while (!(name.done || (await isUnique(name.value)))) {
 		name = nameGenerator.next();
 	}
 

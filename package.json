@@ -766,7 +766,7 @@
 		"onTaskType:daprd"
 	],
 	"dependencies": {
-		"@microsoft/vscode-azext-utils": "2.1.4",
+		"@microsoft/vscode-azext-utils": "2.1.5",
 		"@opentelemetry/api": "1.7.0",
 		"@opentelemetry/tracing": "0.24.0",
 		"axios": "1.6.3",
@@ -784,7 +784,7 @@
 		"@types/js-yaml": "4.0.9",
 		"@types/lodash.isequal": "4.5.8",
 		"@types/mocha": "10.0.6",
-		"@types/node": "20.10.5",
+		"@types/node": "20.10.6",
 		"@types/semver": "7.5.6",
 		"@types/terser-webpack-plugin": "5.2.0",
 		"@types/vscode": "1.85.0",

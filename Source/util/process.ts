@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as cp from "child_process";
-import * as readline from "node:readline";
+import * as readline from "readline";
 import internal from "stream";
 import * as vscode from "vscode";
 import * as nls from "vscode-nls";

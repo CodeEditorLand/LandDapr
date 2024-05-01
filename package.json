@@ -788,25 +788,25 @@
 		"onTaskType:daprd"
 	],
 	"dependencies": {
-		"axios": "^0.27.2",
-		"handlebars": "^4.7.8",
-		"js-yaml": "^4.1.0",
-		"lodash.isequal": "^4.5.0",
-		"ps-list": "^7.2.0",
-		"rxjs": "^7.8.1",
-		"semver": "^7.6.0",
-		"tree-kill": "^1.2.2"
+		"axios": "1.6.8",
+		"handlebars": "4.7.8",
+		"js-yaml": "4.1.0",
+		"lodash.isequal": "4.5.0",
+		"ps-list": "8.1.1",
+		"rxjs": "7.8.1",
+		"semver": "7.6.0",
+		"tree-kill": "1.2.2"
 	},
 	"devDependencies": {
 		"@playform/build": "0.0.7",
 		"@playform/document": "0.0.6",
-		"@types/handlebars": "^4.1.0",
-		"@types/js-yaml": "^4.0.9",
-		"@types/lodash.isequal": "^4.5.8",
-		"@types/node": "^18.18.3",
-		"@types/semver": "^7.5.3",
-		"glob": "^10.3.10",
-		"ts-loader": "^9.5.1"
+		"@types/handlebars": "4.1.0",
+		"@types/js-yaml": "4.0.9",
+		"@types/lodash.isequal": "4.5.8",
+		"@types/node": "20.12.7",
+		"@types/semver": "7.5.8",
+		"glob": "10.3.12",
+		"ts-loader": "9.5.1"
 	},
 	"publishConfig": {
 		"access": "public"

@@ -4,32 +4,34 @@
 	"version": "0.0.1",
 	"private": false,
 	"description": "Makes it easy to run, debug, and interact with Dapr-enabled applications.",
-	"homepage": "https://github.com/CodeEditorLand/Foundation#readme",
+	"keywords": [
+		"land"
+	],
+	"homepage": "HTTPS://GitHub.Com/CodeEditorLand/LandDAPR#readme",
 	"bugs": {
-		"url": "https://github.com/CodeEditorLand/Foundation/issues"
+		"url": "HTTPS://GitHub.Com/CodeEditorLand/LandDAPR/issues"
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/CodeEditorLand/Foundation.git"
+		"url": "git+HTTPS://github.com/CodeEditorLand/LandDAPR.git"
 	},
 	"license": "SEE LICENSE IN LICENSE",
 	"author": {
-		"name": "Playform",
-		"email": "Hello@Playform.Cloud",
-		"url": "https://playform.cloud"
+		"name": "🌆 — Land —",
+		"email": "Land@PlayForm.Cloud",
+		"url": "HTTPS://Land.PlayForm.Cloud"
 	},
 	"type": "module",
 	"main": "./main.js",
 	"scripts": {
+		"Document": "Document 'Source/**/*.ts'",
 		"build": "webpack --mode production --devtool hidden-source-map",
 		"build-test": "tsc -p ./",
 		"ci-build": "npm run lint && npm run build",
 		"ci-package": "npm run ci-build && npm run package-impl",
-		"package": "npm run build && npm run package-impl",
 		"package-impl": "vsce package",
-		"prepublishOnly": "TypeScriptESBuild 'Source/**/*.ts'",
-		"unit-test": "npm run build-test && node ./out/test/runUnitTests.js",
-		"watch": "webpack --watch"
+		"prepublishOnly": "Build 'Source/**/*.ts'",
+		"unit-test": "npm run build-test && node ./out/test/runUnitTests.js"
 	},
 	"contributes": {
 		"commands": [
@@ -459,6 +461,17 @@
 						"description": "%vscode-dapr.tasks.dapr.properties.metricsPort.description%",
 						"type": "integer"
 					},
+					"options": {
+						"additionalProperties": true,
+						"description": "%vscode-dapr.tasks.dapr.properties.options.description%",
+						"properties": {
+							"env": {
+								"description": "%vscode-dapr.tasks.dapr.properties.options.env.description%",
+								"type": "object"
+							}
+						},
+						"type": "object"
+					},
 					"placementHostAddress": {
 						"default": "localhost",
 						"description": "%vscode-dapr.tasks.dapr.properties.placementHostAddress.description%",
@@ -658,6 +671,17 @@
 						],
 						"type": "string"
 					},
+					"options": {
+						"additionalProperties": true,
+						"description": "%vscode-dapr.tasks.daprd.properties.options.description%",
+						"properties": {
+							"env": {
+								"description": "%vscode-dapr.tasks.daprd.properties.options.env.description%",
+								"type": "object"
+							}
+						},
+						"type": "object"
+					},
 					"placementHostAddress": {
 						"description": "%vscode-dapr.tasks.daprd.properties.placementHostAddress.description%",
 						"type": "string"
@@ -764,42 +788,25 @@
 		"onTaskType:daprd"
 	],
 	"dependencies": {
-		"@microsoft/vscode-azext-utils": "^2.1.1",
-		"@opentelemetry/api": "^1.6.0",
-		"@opentelemetry/tracing": "^0.24.0",
-		"axios": "^0.27.2",
-		"handlebars": "^4.7.8",
-		"js-yaml": "^4.1.0",
-		"lodash.isequal": "^4.5.0",
-		"ps-list": "^7.2.0",
-		"rxjs": "^7.8.1",
-		"semver": "^7.5.2",
-		"tree-kill": "^1.2.2",
-		"vscode-nls": "^5.2.0"
+		"axios": "1.6.8",
+		"handlebars": "4.7.8",
+		"js-yaml": "4.1.0",
+		"lodash.isequal": "4.5.0",
+		"ps-list": "8.1.1",
+		"rxjs": "7.8.1",
+		"semver": "7.6.0",
+		"tree-kill": "1.2.2"
 	},
 	"devDependencies": {
-		"@types/handlebars": "^4.1.0",
-		"@types/js-yaml": "^4.0.6",
-		"@types/lodash.isequal": "^4.5.6",
-		"@types/mocha": "^10.0.2",
-		"@types/node": "^18.18.3",
-		"@types/semver": "^7.5.3",
-		"@types/terser-webpack-plugin": "^5.2.0",
-		"@types/vscode": "^1.82.0",
-		"@types/webpack": "^5.28.3",
-		"@vscode/test-electron": "^2.3.4",
-		"glob": "^10.3.10",
-		"mocha": "^10.2.0",
-		"opentelemetry": "^0.1.0",
-		"terser-webpack-plugin": "^5.3.3",
-		"ts-loader": "^9.4.4",
-		"ts-node": "^10.9.1",
-		"typescript": "^5.2.2",
-		"typescript-esbuild": "0.4.5",
-		"vsce": "^2.15.0",
-		"vscode-nls-dev": "^4.0.4",
-		"webpack": "^5.88.2",
-		"webpack-cli": "^5.1.4"
+		"@playform/build": "0.0.7",
+		"@playform/document": "0.0.6",
+		"@types/handlebars": "4.1.0",
+		"@types/js-yaml": "4.0.9",
+		"@types/lodash.isequal": "4.5.8",
+		"@types/node": "20.12.7",
+		"@types/semver": "7.5.8",
+		"glob": "10.3.12",
+		"ts-loader": "9.5.1"
 	},
 	"publishConfig": {
 		"access": "public"

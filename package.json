@@ -766,7 +766,7 @@
 		"onTaskType:daprd"
 	],
 	"dependencies": {
-		"axios": "1.7.1",
+		"axios": "1.7.2",
 		"handlebars": "4.7.8",
 		"js-yaml": "4.1.0",
 		"lodash.isequal": "4.5.0",
@@ -781,7 +781,7 @@
 		"@types/lodash.isequal": "4.5.8",
 		"@types/node": "20.12.12",
 		"@types/semver": "7.5.8",
-		"glob": "10.3.15",
+		"glob": "10.3.16",
 		"ts-loader": "9.5.1"
 	},
 	"icon": "assets/images/extensionIcon.png",

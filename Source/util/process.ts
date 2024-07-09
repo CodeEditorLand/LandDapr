@@ -6,7 +6,7 @@ import internal from 'stream';
 import * as vscode from 'vscode';
 import * as nls from 'vscode-nls';
 import * as localization from './localization';
-import * as readline from 'node:readline';
+import * as readline from 'readline';
 import { treeKill } from './treeKill';
 
 const localize = nls.loadMessageBundle(localization.getLocalizationPathForFile(__filename));

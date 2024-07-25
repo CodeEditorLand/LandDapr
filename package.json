@@ -1,10 +1,16 @@
 {
-	"activationEvents": [
-		"onDebugResolve:dapr",
-		"onTaskType:dapr",
-		"onTaskType:daprd"
-	],
-	"aiKey": "0c6ae279ed8443289764825290e4f9e2-1a736e7c-1324-4338-be46-fc2a58ae4d14-7255",
+	"name": "vscode-dapr",
+	"displayName": "Dapr",
+	"description": "Makes it easy to run, debug, and interact with Dapr-enabled applications.",
+	"main": "./main.js",
+	"scripts": {
+		"build": "webpack --mode production --devtool hidden-source-map",
+		"build-test": "tsc -p ./",
+		"ci-build": "npm run lint && npm run build",
+		"ci-package": "npm run ci-build && npm run package-impl",
+		"package-impl": "vsce package",
+		"unit-test": "npm run build-test && node ./out/test/runUnitTests.js"
+	},
 	"contributes": {
 		"commands": [
 			{
@@ -754,34 +760,37 @@
 			}
 		]
 	},
+	"activationEvents": [
+		"onDebugResolve:dapr",
+		"onTaskType:dapr",
+		"onTaskType:daprd"
+	],
 	"dependencies": {
-		"axios": "^0.27.2",
-		"handlebars": "^4.7.8",
-		"js-yaml": "^4.1.0",
-		"lodash.isequal": "^4.5.0",
-		"ps-list": "^7.2.0",
-		"rxjs": "^7.8.1",
-		"semver": "^7.6.2",
-		"tree-kill": "^1.2.2"
+		"axios": "1.7.2",
+		"handlebars": "4.7.8",
+		"js-yaml": "4.1.0",
+		"lodash.isequal": "4.5.0",
+		"ps-list": "8.1.1",
+		"rxjs": "8.0.0-alpha.14",
+		"semver": "7.6.3",
+		"tree-kill": "1.2.2"
 	},
-	"description": "Makes it easy to run, debug, and interact with Dapr-enabled applications.",
 	"devDependencies": {
-		"@types/handlebars": "^4.1.0",
-		"@types/js-yaml": "^4.0.9",
-		"@types/lodash.isequal": "^4.5.8",
-		"@types/node": "^18.18.3",
-		"@types/semver": "^7.5.8",
-		"glob": "^10.4.1",
-		"ts-loader": "^9.5.1"
+		"@types/handlebars": "4.1.0",
+		"@types/js-yaml": "4.0.9",
+		"@types/lodash.isequal": "4.5.8",
+		"@types/node": "20.14.12",
+		"@types/semver": "7.5.8",
+		"glob": "11.0.0",
+		"ts-loader": "9.5.1"
 	},
-	"displayName": "Dapr",
+	"icon": "assets/images/extensionIcon.png",
+	"preview": true,
+	"aiKey": "0c6ae279ed8443289764825290e4f9e2-1a736e7c-1324-4338-be46-fc2a58ae4d14-7255",
 	"extensionKind": [
 		"workspace",
 		"ui"
 	],
-	"icon": "assets/images/extensionIcon.png",
-	"main": "./main.js",
-	"name": "vscode-dapr",
 	"overrides": {
 		"uglify-js": "3.13.10",
 		"xml2js": "0.5.0"

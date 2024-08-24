@@ -5,16 +5,16 @@
 
 Object.defineProperty(exports, "__esModule", { value: true });
 
-const nls = require('vscode-nls');
-const path = require('path');
+const nls = require("vscode-nls");
+const path = require("path");
 
-const options = { 
-    messageFormat: nls.MessageFormat.bundle
+const options = {
+	messageFormat: nls.MessageFormat.bundle,
 };
 
 // TODO: Should we use VSCODE_NLS_CONFIG?
 if (process.env.VSCODE_DAPR_LOCALE) {
-    options.locale = process.env.VSCODE_DAPR_LOCALE;
+	options.locale = process.env.VSCODE_DAPR_LOCALE;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -23,28 +23,28 @@ const localize = nls.config(options)();
 var actualExtension;
 
 function getExtension(extensionPath) {
-    if (!actualExtension) {
-        const extensionFolderName = 'dist';
-        const extensionFileName = `./${extensionFolderName}/extension`;
-    
-        global.vscodeDapr = {
-            localizationRootPath: path.join(extensionPath, extensionFolderName)
-        };
-    
-        actualExtension = require(extensionFileName);
-    }
+	if (!actualExtension) {
+		const extensionFolderName = "dist";
+		const extensionFileName = `./${extensionFolderName}/extension`;
 
-    return actualExtension;
+		global.vscodeDapr = {
+			localizationRootPath: path.join(extensionPath, extensionFolderName),
+		};
+
+		actualExtension = require(extensionFileName);
+	}
+
+	return actualExtension;
 }
 
 function activate(ctx) {
-    getExtension(ctx.extensionPath).activate(ctx);
+	getExtension(ctx.extensionPath).activate(ctx);
 }
 
 function deactivate() {
-    if (actualExtension) {
-        return actualExtension.deactivate();
-    }
+	if (actualExtension) {
+		return actualExtension.deactivate();
+	}
 }
 
 exports.activate = activate;

@@ -1,47 +1,58 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as vscode from 'vscode';
-import TaskPseudoterminalWriter, { PseudoterminalWriter } from './taskPseudoterminalWriter';
+import * as vscode from "vscode";
 
-export type TaskPseudoterminalCallback = (writer: PseudoterminalWriter, cts: vscode.CancellationToken) => Promise<number | void>;
+import TaskPseudoterminalWriter, {
+	PseudoterminalWriter,
+} from "./taskPseudoterminalWriter";
 
-export default class TaskPseudoterminal extends vscode.Disposable implements vscode.Pseudoterminal {
-    private readonly closeEmitter: vscode.EventEmitter<number | void> = new vscode.EventEmitter<number | void>();
-    private readonly writeEmitter: vscode.EventEmitter<string> = new vscode.EventEmitter<string>();
-    private readonly cts: vscode.CancellationTokenSource = new vscode.CancellationTokenSource();
+export type TaskPseudoterminalCallback = (
+	writer: PseudoterminalWriter,
+	cts: vscode.CancellationToken,
+) => Promise<number | void>;
 
-    constructor(private readonly callback: TaskPseudoterminalCallback) {
-        super(
-            () => {
-                this.close();
+export default class TaskPseudoterminal
+	extends vscode.Disposable
+	implements vscode.Pseudoterminal
+{
+	private readonly closeEmitter: vscode.EventEmitter<number | void> =
+		new vscode.EventEmitter<number | void>();
+	private readonly writeEmitter: vscode.EventEmitter<string> =
+		new vscode.EventEmitter<string>();
+	private readonly cts: vscode.CancellationTokenSource =
+		new vscode.CancellationTokenSource();
 
-                this.closeEmitter.dispose();
-                this.writeEmitter.dispose();
-                this.cts.dispose();
-            });
-    }
+	constructor(private readonly callback: TaskPseudoterminalCallback) {
+		super(() => {
+			this.close();
 
-    readonly onDidClose: vscode.Event<number | void> = this.closeEmitter.event;
-    public readonly onDidWrite: vscode.Event<string> = this.writeEmitter.event;
+			this.closeEmitter.dispose();
+			this.writeEmitter.dispose();
+			this.cts.dispose();
+		});
+	}
 
-    open(): void {
-        this.callback(
-            new TaskPseudoterminalWriter(
-                (output: string) => {
-                    this.writeEmitter.fire(output);
-                }),
-            this.cts.token)
-            .then(value => this.closeWithValue(value))
-            .catch(() => this.closeWithValue());
-    }
+	readonly onDidClose: vscode.Event<number | void> = this.closeEmitter.event;
+	public readonly onDidWrite: vscode.Event<string> = this.writeEmitter.event;
 
-    close(): void {
-        this.closeWithValue();
-    }
+	open(): void {
+		this.callback(
+			new TaskPseudoterminalWriter((output: string) => {
+				this.writeEmitter.fire(output);
+			}),
+			this.cts.token,
+		)
+			.then((value) => this.closeWithValue(value))
+			.catch(() => this.closeWithValue());
+	}
 
-    private closeWithValue(value: number | void): void {
-        this.cts.cancel();
-        this.closeEmitter.fire(value);
-    }
+	close(): void {
+		this.closeWithValue();
+	}
+
+	private closeWithValue(value: number | void): void {
+		this.cts.cancel();
+		this.closeEmitter.fire(value);
+	}
 }

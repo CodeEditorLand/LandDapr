@@ -1,128 +1,150 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import CommandLineBuilder from "../util/commandLineBuilder";
-import { LineOutputHandler, Process } from "../util/process";
-import * as nls from 'vscode-nls';
-import { getLocalizationPathForFile } from '../util/localization';
-import { DaprApplication } from "./daprApplicationProvider";
-import * as os from 'os'
+import * as os from "os";
+import * as nls from "vscode-nls";
+
 import { AsyncDisposable } from "../util/asyncDisposable";
+import CommandLineBuilder from "../util/commandLineBuilder";
+import { getLocalizationPathForFile } from "../util/localization";
+import { LineOutputHandler, Process } from "../util/process";
+import { DaprApplication } from "./daprApplicationProvider";
 
 const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 export interface DaprVersion {
-    cli: string | undefined;
-    runtime: string | undefined;
+	cli: string | undefined;
+	runtime: string | undefined;
 }
 
 export interface DaprDashboard extends AsyncDisposable {
-    readonly url: string;
+	readonly url: string;
 }
 
 export interface DaprCliClient {
-    startDashboard(): Promise<DaprDashboard>;
-    version(): Promise<DaprVersion>;
-    stopApp(application: DaprApplication | undefined): void;
-    stopRun(runTemplatePath: string): Promise<void>;
+	startDashboard(): Promise<DaprDashboard>;
+	version(): Promise<DaprVersion>;
+	stopApp(application: DaprApplication | undefined): void;
+	stopRun(runTemplatePath: string): Promise<void>;
 }
 
 interface DaprCliVersion {
-    'Cli version'?: string;
-    'Runtime version'?: string;
+	"Cli version"?: string;
+	"Runtime version"?: string;
 }
 
 export default class LocalDaprCliClient implements DaprCliClient {
-    private static readonly DashboardRunningRegex = /^Dapr Dashboard running on (?<url>.+)$/;
+	private static readonly DashboardRunningRegex =
+		/^Dapr Dashboard running on (?<url>.+)$/;
 
-    constructor(private readonly daprPathProvider: () => string) {
-    }
+	constructor(private readonly daprPathProvider: () => string) {}
 
-    async startDashboard(): Promise<DaprDashboard> {
-        const command =
-            CommandLineBuilder
-                .create(this.daprPathProvider(), 'dashboard', '--port', '0')
-                .build();
+	async startDashboard(): Promise<DaprDashboard> {
+		const command = CommandLineBuilder.create(
+			this.daprPathProvider(),
+			"dashboard",
+			"--port",
+			"0",
+		).build();
 
-        let onLine: (line: string) => void;
+		let onLine: (line: string) => void;
 
-        const readyTask = new Promise<string>(
-            resolve => {
-                onLine = (line: string) => {
-                    const match = LocalDaprCliClient.DashboardRunningRegex.exec(line);
-        
-                    if (match) {
-                        const url = match.groups?.['url'];
-        
-                        if (url) {
-                            resolve(url);
-                        }
-                    }
-                };
-            });
+		const readyTask = new Promise<string>((resolve) => {
+			onLine = (line: string) => {
+				const match =
+					LocalDaprCliClient.DashboardRunningRegex.exec(line);
 
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const outputHandler = new LineOutputHandler(onLine!);
+				if (match) {
+					const url = match.groups?.["url"];
 
-        try {
-            const process = await Process.spawnProcess(command, { outputHandler });
+					if (url) {
+						resolve(url);
+					}
+				}
+			};
+		});
 
-            const url = await readyTask;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const outputHandler = new LineOutputHandler(onLine!);
 
-            return {
-                dispose: () => process.killAll(),
-                url
-            };
-        } finally {
-            outputHandler.dispose();
-        }
-    }
+		try {
+			const process = await Process.spawnProcess(command, {
+				outputHandler,
+			});
 
-    async version(): Promise<DaprVersion> {
-        const daprPath = this.daprPathProvider();
-        const command =
-            CommandLineBuilder
-                .create(daprPath, 'version', '--output', 'json')
-                .build();
+			const url = await readyTask;
 
-        const result = await Process.exec(command);
+			return {
+				dispose: () => process.killAll(),
+				url,
+			};
+		} finally {
+			outputHandler.dispose();
+		}
+	}
 
-        if (result.code !== 0) {
-            throw new Error(localize('services.daprCliClient.versionFailed', 'Retrieving the dapr CLI version failed: {0}', result.stderr));
-        }
+	async version(): Promise<DaprVersion> {
+		const daprPath = this.daprPathProvider();
+		const command = CommandLineBuilder.create(
+			daprPath,
+			"version",
+			"--output",
+			"json",
+		).build();
 
-        const cliVersion = JSON.parse(result.stdout) as DaprCliVersion;
+		const result = await Process.exec(command);
 
-        return {
-            cli: cliVersion['Cli version'],
-            runtime: cliVersion['Runtime version']
-        }
-    }
+		if (result.code !== 0) {
+			throw new Error(
+				localize(
+					"services.daprCliClient.versionFailed",
+					"Retrieving the dapr CLI version failed: {0}",
+					result.stderr,
+				),
+			);
+		}
 
-    stopApp(application: DaprApplication | undefined): void {
-        const processId = application?.ppid !== undefined ? application.ppid : application?.pid;
-        if (os.platform() === 'win32') {
-            // NOTE: Windows does not support SIGTERM/SIGINT/SIGBREAK, so there can be no graceful process shutdown.
-            //       As a partial mitigation, use `taskkill` to kill the entire process tree.
-            processId !== undefined ? void Process.exec(`taskkill /pid ${processId} /t /f`) : null;
-        } else {
-            processId !== undefined ? process.kill(processId, 'SIGTERM') : null;
-        } 
-    }
+		const cliVersion = JSON.parse(result.stdout) as DaprCliVersion;
 
-    async stopRun(runTemplateFile: string): Promise<void> {
-        const daprPath = this.daprPathProvider();
+		return {
+			cli: cliVersion["Cli version"],
+			runtime: cliVersion["Runtime version"],
+		};
+	}
 
-        const command =
-            CommandLineBuilder
-                .create(daprPath, 'stop')
-                .withNamedArg("--run-file", runTemplateFile)
-                .build();
+	stopApp(application: DaprApplication | undefined): void {
+		const processId =
+			application?.ppid !== undefined
+				? application.ppid
+				: application?.pid;
+		if (os.platform() === "win32") {
+			// NOTE: Windows does not support SIGTERM/SIGINT/SIGBREAK, so there can be no graceful process shutdown.
+			//       As a partial mitigation, use `taskkill` to kill the entire process tree.
+			processId !== undefined
+				? void Process.exec(`taskkill /pid ${processId} /t /f`)
+				: null;
+		} else {
+			processId !== undefined ? process.kill(processId, "SIGTERM") : null;
+		}
+	}
 
-        const result = await Process.exec(command);
+	async stopRun(runTemplateFile: string): Promise<void> {
+		const daprPath = this.daprPathProvider();
 
-        if (result.code !== 0) {
-            throw new Error(localize('services.daprCliClient.stopRunFailed', 'Stopping the run failed: {0}', result.stderr));
-        }
-    }
+		const command = CommandLineBuilder.create(daprPath, "stop")
+			.withNamedArg("--run-file", runTemplateFile)
+			.build();
+
+		const result = await Process.exec(command);
+
+		if (result.code !== 0) {
+			throw new Error(
+				localize(
+					"services.daprCliClient.stopRunFailed",
+					"Stopping the run failed: {0}",
+					result.stderr,
+				),
+			);
+		}
+	}
 }

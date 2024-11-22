@@ -85,6 +85,7 @@ export default class DaprCommandTaskProvider extends CommandTaskProvider {
 									daprPathProvider,
 									daprDefinition,
 								).build();
+
 								return callback(command, {
 									cwd: definition.cwd,
 									env: Object.assign(
@@ -101,6 +102,7 @@ export default class DaprCommandTaskProvider extends CommandTaskProvider {
 
 						if (!folder) {
 							context.errorHandling.suppressReportIssue = true;
+
 							throw new Error(
 								localize(
 									"tasks.daprCommandTaskProvider.noFolderOrWorkspace",
@@ -121,6 +123,7 @@ export default class DaprCommandTaskProvider extends CommandTaskProvider {
 										daprPathProvider,
 										{ type: "dapr", runFile: runFilePath },
 									).build();
+
 									return callback(command, {
 										cwd: definition.cwd,
 										env: Object.assign(
@@ -151,6 +154,7 @@ export default class DaprCommandTaskProvider extends CommandTaskProvider {
 async function checkFileExists(filePath: string): Promise<boolean> {
 	try {
 		await fs.access(filePath);
+
 		return true;
 	} catch (error) {
 		return false;

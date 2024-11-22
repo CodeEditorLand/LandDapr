@@ -105,6 +105,7 @@ export default class DaprApplicationTreeDataProvider
 				runTemplatePath: string;
 			};
 		} = {};
+
 		const individualApps: DaprApplication[] = [];
 
 		for (const application of this.applications) {

@@ -57,6 +57,7 @@ export async function viewLogs(
 	}
 
 	const runFileDirectory = path.dirname(application.runTemplatePath);
+
 	const appDirectory = path.join(
 		runFileDirectory,
 		runFileApplication.appDirPath,
@@ -65,6 +66,7 @@ export async function viewLogs(
 	);
 
 	const pattern = `${application.appId}_${type}_*.log`;
+
 	const relativePattern = new vscode.RelativePattern(appDirectory, pattern);
 
 	const files = await vscode.workspace.findFiles(relativePattern);

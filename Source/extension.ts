@@ -90,19 +90,24 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 			actionContext.telemetry.properties.isActivationEvent = "true";
 
 			const settingsProvider = new VsCodeSettingsProvider();
+
 			const daprApplicationProvider =
 				new DaprListBasedDaprApplicationProvider(
 					() => settingsProvider.daprPath,
 				);
+
 			const daprClient = new HttpDaprClient(new AxiosHttpClient());
+
 			const ui = new AggregateUserInput(actionContext.ui);
 
 			const scaffolder = new LocalScaffolder();
+
 			const templatesPath = path.join(
 				context.extensionPath,
 				"assets",
 				"templates",
 			);
+
 			const templateScaffolder = new HandlebarsTemplateScaffolder(
 				templatesPath,
 			);
@@ -110,6 +115,7 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 			const daprCliClient = new LocalDaprCliClient(
 				() => settingsProvider.daprPath,
 			);
+
 			const daprDashboardProvider = registerAsyncDisposable(
 				new DaprBasedDaprDashboardProvider(daprCliClient),
 			);
@@ -117,12 +123,14 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 			const extensionPackage = <ExtensionPackage>(
 				context.extension.packageJSON
 			);
+
 			const daprInstallationManager = new LocalDaprInstallationManager(
 				extensionPackage.engines["dapr-cli"],
 				extensionPackage.engines["dapr-runtime"],
 				daprCliClient,
 				ui,
 			);
+
 			const daprCommandTaskProvider = new DaprCommandTaskProvider(
 				daprInstallationManager,
 				() => settingsProvider.daprPath,

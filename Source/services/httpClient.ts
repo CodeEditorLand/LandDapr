@@ -56,6 +56,7 @@ export default class AxiosHttpClient implements HttpClient {
 		token?: vscode.CancellationToken,
 	): Promise<HttpResponse> {
 		const cancelTokenSource = axios.CancelToken.source();
+
 		const tokenListener = token
 			? token.onCancellationRequested(() => cancelTokenSource.cancel())
 			: undefined;
@@ -85,6 +86,7 @@ export default class AxiosHttpClient implements HttpClient {
 		token?: vscode.CancellationToken,
 	): Promise<HttpResponse> {
 		const cancelTokenSource = axios.CancelToken.source();
+
 		const tokenListener = token
 			? token.onCancellationRequested(() => cancelTokenSource.cancel())
 			: undefined;

@@ -30,6 +30,7 @@ export interface DaprClient {
 		payload?: unknown,
 		token?: vscode.CancellationToken,
 	): Promise<void>;
+
 	getMetadata(
 		application: DaprApplication,
 		token?: vscode.CancellationToken,

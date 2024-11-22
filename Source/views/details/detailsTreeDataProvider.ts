@@ -71,18 +71,22 @@ export default class DetailsTreeDataProvider
 			"views.details.detailsTreeDataProvider.appID",
 			"App ID",
 		);
+
 		const appPort = localize(
 			"views.details.detailsTreeDataProvider.appPort",
 			"App Port",
 		);
+
 		const httpPort = localize(
 			"views.details.detailsTreeDataProvider.httpPort",
 			"Dapr HTTP Port",
 		);
+
 		const grpcPort = localize(
 			"views.details.detailsTreeDataProvider.grpcPort",
 			"Dapr GRPC Port",
 		);
+
 		const pid = localize(
 			"views.details.detailsTreeDataProvider.pid",
 			"Dapr Process ID",
@@ -107,10 +111,12 @@ export default class DetailsTreeDataProvider
 			"views.details.detailsTreeDataProvider.name",
 			"Name",
 		);
+
 		const type = localize(
 			"views.details.detailsTreeDataProvider.type",
 			"Type",
 		);
+
 		const version = localize(
 			"views.details.detailsTreeDataProvider.version",
 			"Version",

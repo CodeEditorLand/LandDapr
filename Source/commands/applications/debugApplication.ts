@@ -135,6 +135,7 @@ export async function debugApplication(
 	const children = [applicationCommandProcess];
 
 	let childProcess: ProcessDescriptor | undefined;
+
 	let attach: AttachBehavior | undefined = undefined;
 
 	while ((childProcess = children.pop())) {

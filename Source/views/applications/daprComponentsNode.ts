@@ -42,10 +42,13 @@ export default class DaprComponentsNode implements TreeNode {
 			"views.applications.daprComponentsNode.noComponents",
 			"There are no components in use.",
 		);
+
 		const responseData = await this.daprClient.getMetadata(
 			this.application,
 		);
+
 		const components = responseData.components;
+
 		if (components.length > 0) {
 			return components.map(
 				(comp) => new DaprComponentMetadataNode(comp, "database"),

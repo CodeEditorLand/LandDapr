@@ -20,7 +20,9 @@ import { getLocalizationPathForFile } from "../../util/localization";
 const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 const invokeGetMethodStateKey = "vscode-docker.state.invokeGet.method";
+
 const invokePostMethodStateKey = "vscode-docker.state.invokePost.method";
+
 const invokePostPayloadStateKey = "vscode-docker.state.invokePost.payload";
 
 export async function getApplication(

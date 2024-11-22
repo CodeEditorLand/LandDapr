@@ -143,6 +143,7 @@ export default class CommandLineBuilder {
 			for (const value of values) {
 				if (value !== undefined) {
 					const formatted = formatter(value);
+
 					if (typeof formatted === "string") {
 						this.withArg(name);
 						this.withArg({

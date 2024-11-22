@@ -85,6 +85,7 @@ export default class LocalDaprCliClient implements DaprCliClient {
 
 	async version(): Promise<DaprVersion> {
 		const daprPath = this.daprPathProvider();
+
 		const command = CommandLineBuilder.create(
 			daprPath,
 			"version",
@@ -117,6 +118,7 @@ export default class LocalDaprCliClient implements DaprCliClient {
 			application?.ppid !== undefined
 				? application.ppid
 				: application?.pid;
+
 		if (os.platform() === "win32") {
 			// NOTE: Windows does not support SIGTERM/SIGINT/SIGBREAK, so there can be no graceful process shutdown.
 			//       As a partial mitigation, use `taskkill` to kill the entire process tree.

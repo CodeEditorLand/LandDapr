@@ -23,7 +23,9 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 const publishMessagePubSubNameStateKey =
 	"vscode-docker.state.publishMessage.pubSubName";
+
 const publishMessageTopicStateKey = "vscode-docker.state.publishMessage.topic";
+
 const publishMessagePayloadStateKey =
 	"vscode-docker.state.publishMessage.payload";
 

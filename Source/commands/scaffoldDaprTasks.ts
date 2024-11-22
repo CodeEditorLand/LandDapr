@@ -42,10 +42,15 @@ interface ScaffoldWizardContext {
 }
 
 const DefaultPort = 80;
+
 const DjangoPort = 8000;
+
 const FlaskPort = 5000;
+
 const JavaPort = 8080;
+
 const NetCorePort = 5000;
+
 const NodePort = 3000;
 
 interface DotNetProfile {
@@ -71,9 +76,11 @@ async function getDefaultDotnetPort(
 		for (const launchSettingsFile of launchSettingsFiles) {
 			const launchSettingsBuffer =
 				await vscode.workspace.fs.readFile(launchSettingsFile);
+
 			const launchSettingsContents = new TextDecoder("utf-8").decode(
 				launchSettingsBuffer,
 			);
+
 			const launchSettingsJson = JSON.parse(
 				launchSettingsContents,
 			) as DotNetLaunchSettings;
@@ -150,6 +157,7 @@ async function createUniqueName(
 	isUnique: ConflictUniquenessPredicate,
 ): Promise<string> {
 	const nameGenerator = names(prefix, range(1));
+
 	let name = nameGenerator.next();
 
 	while (!name.done && !(await isUnique(name.value))) {
@@ -178,6 +186,7 @@ export async function scaffoldDaprTasks(
 		.properties as ScaffoldTelemetryProperties;
 
 	const folder = vscode.workspace.workspaceFolders?.[0];
+
 	if (!folder) {
 		context.errorHandling.suppressReportIssue = true;
 
@@ -192,7 +201,9 @@ export async function scaffoldDaprTasks(
 	const runFilePath = path.join(folder.uri.fsPath, "dapr.yaml");
 
 	const runFilePathString = "${workspaceFolder}/dapr.yaml";
+
 	const daprTaskType = "dapr";
+
 	const daprConfigType = "dapr";
 
 	const onTaskConflict: ConflictHandler = async (label, isUnique) => {
@@ -204,6 +215,7 @@ export async function scaffoldDaprTasks(
 				"Overwrite",
 			),
 		};
+
 		const newTask: vscode.MessageItem = {
 			title: localize(
 				"commands.scaffoldDaprTasks.createTask",
@@ -247,6 +259,7 @@ export async function scaffoldDaprTasks(
 				"Overwrite",
 			),
 		};
+
 		const newConfiguration: vscode.MessageItem = {
 			title: localize(
 				"commands.scaffoldDaprTasks.createConfiguration",
@@ -293,12 +306,14 @@ export async function scaffoldDaprTasks(
 				"Use Run File",
 			),
 		};
+
 		const defaultTask: vscode.MessageItem = {
 			title: localize(
 				"commands.scaffoldDaprTasks.notUseExistingDaprRunFile",
 				"Run Dapr Directly",
 			),
 		};
+
 		const result = await ui.showWarningMessage(
 			"You already have a Dapr run file. Would you like to use it in the scaffolded task?",
 			{ modal: true },
@@ -316,6 +331,7 @@ export async function scaffoldDaprTasks(
 						type: daprTaskType,
 						runFile: runFilePathString,
 					};
+
 					return daprUpTask;
 				},
 				onTaskConflict,
@@ -332,10 +348,12 @@ export async function scaffoldDaprTasks(
 						runFile: runFilePathString,
 						preLaunchTask,
 					};
+
 					return daprDebugConfiguration;
 				},
 				onConfigConflict,
 			);
+
 			return;
 		}
 	} else {
@@ -473,6 +491,7 @@ export async function scaffoldDaprTasks(
 		);
 
 		const buildTask = result.configuration.preLaunchTask;
+
 		const tearDownTask = result.configuration.postDebugTask;
 
 		telemetryProperties.configurationType = result.configuration.type;

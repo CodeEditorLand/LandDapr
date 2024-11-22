@@ -10,6 +10,7 @@ export async function withAggregateTokens<T>(
 	const cancellationTokenSource = new AggregateCancellationTokenSource(
 		...tokens,
 	);
+
 	try {
 		return await callback(cancellationTokenSource.token);
 	} finally {

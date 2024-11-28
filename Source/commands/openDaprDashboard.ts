@@ -16,4 +16,5 @@ export async function openDaprDashboard(
 const createOpenDaprDashboardCommand =
 	(daprDashboardProvider: DaprDashboardProvider) => (): Promise<void> =>
 		openDaprDashboard(daprDashboardProvider);
+
 export default createOpenDaprDashboardCommand;

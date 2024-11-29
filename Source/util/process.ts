@@ -67,9 +67,11 @@ export class WrittenOutputHandler
 	implements ProcessOutputHandler
 {
 	private readonly onStdErrCallback: (data: string | Buffer) => void;
+
 	private readonly onStdOutCallback: (data: string | Buffer) => void;
 
 	private stderr: internal.Readable | null = null;
+
 	private stdout: internal.Readable | null = null;
 
 	constructor(
@@ -78,10 +80,12 @@ export class WrittenOutputHandler
 	) {
 		super(() => {
 			this.stderr?.removeListener("data", this.onStdErrCallback);
+
 			this.stdout?.removeListener("data", this.onStdOutCallback);
 		});
 
 		this.onStdErrCallback = (data) => onStdErr(data.toString());
+
 		this.onStdOutCallback = (data) => onStdOut(data.toString());
 	}
 
@@ -90,6 +94,7 @@ export class WrittenOutputHandler
 		stdout: internal.Readable | null,
 	): void {
 		this.stderr = stderr;
+
 		this.stdout = stdout;
 
 		if (stderr) {
@@ -104,6 +109,7 @@ export class WrittenOutputHandler
 
 export class BufferedOutputHandler extends WrittenOutputHandler {
 	private stdoutBytesWritten = 0;
+
 	private stderrBytesWritten = 0;
 
 	constructor(private readonly maxBuffer: number = DEFAULT_BUFFER_SIZE) {
@@ -123,10 +129,12 @@ export class BufferedOutputHandler extends WrittenOutputHandler {
 		);
 
 		this.stdoutBuffer = Buffer.alloc(maxBuffer);
+
 		this.stderrBuffer = Buffer.alloc(maxBuffer);
 	}
 
 	public readonly stdoutBuffer: Buffer;
+
 	public readonly stderrBuffer: Buffer;
 }
 
@@ -134,6 +142,7 @@ export interface SpawnedProcess {
 	pid: number;
 
 	kill(): Promise<void>;
+
 	killAll(): Promise<void>;
 }
 
@@ -170,6 +179,7 @@ export class Process {
 		return new Promise((resolve, reject) => {
 			// Without the shell option, it pukes on arguments
 			options = options || {};
+
 			options.shell ??= true;
 
 			const process = cp.spawn(command, options);
@@ -213,6 +223,7 @@ export class Process {
 		options?: SpawnOptions,
 	): Promise<SpawnedProcess> {
 		options = options || {};
+
 		options.shell ??= true;
 
 		const process = cp.spawn(command, options);

@@ -19,11 +19,13 @@ export interface Scaffolder {
 		contentFactory: ConfigurationContentFactory,
 		onConflict: ConflictHandler,
 	): Promise<string | undefined>;
+
 	scaffoldFile(
 		path: string,
 		contentFactory: FileContentFactory,
 		onConflict: ConflictHandler,
 	): Promise<string | undefined>;
+
 	scaffoldTask(
 		label: string,
 		folder: vscode.WorkspaceFolder,

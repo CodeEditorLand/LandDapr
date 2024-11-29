@@ -29,6 +29,7 @@ export default class DaprApplicationNode implements TreeNode {
 				: "",
 			this.application.runTemplatePath ? "hasLogs" : "",
 		].join(" ");
+
 		item.iconPath = new vscode.ThemeIcon(
 			this.application.appPid !== undefined
 				? "server-process"

@@ -82,6 +82,7 @@ export default class CommandLineBuilder {
 				});
 			} else {
 				this.withArg(name);
+
 				this.withArg({
 					value: value.toString(),
 					quoting: vscode.ShellQuoting.Strong, // The prior behavior was to quote
@@ -89,6 +90,7 @@ export default class CommandLineBuilder {
 			}
 		} else if (value !== undefined) {
 			this.withArg(name);
+
 			this.withArg(value);
 		}
 
@@ -116,6 +118,7 @@ export default class CommandLineBuilder {
 			for (const key of Object.keys(values)) {
 				if (typeof values[key] === "string") {
 					this.withArg(name);
+
 					this.withArg({
 						// No combination of configuration seems to satisfy this rule.
 						// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
@@ -124,6 +127,7 @@ export default class CommandLineBuilder {
 					});
 				} else if (values[key] !== undefined) {
 					this.withArg(name);
+
 					this.withArg(values[key]);
 				}
 			}
@@ -146,12 +150,14 @@ export default class CommandLineBuilder {
 
 					if (typeof formatted === "string") {
 						this.withArg(name);
+
 						this.withArg({
 							value: formatted,
 							quoting: vscode.ShellQuoting.Strong, // The prior behavior was to quote
 						});
 					} else if (formatted !== undefined) {
 						this.withArg(name);
+
 						this.withArg(formatted);
 					}
 				}

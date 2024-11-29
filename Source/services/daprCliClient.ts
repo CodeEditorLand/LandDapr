@@ -14,6 +14,7 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 export interface DaprVersion {
 	cli: string | undefined;
+
 	runtime: string | undefined;
 }
 
@@ -23,8 +24,11 @@ export interface DaprDashboard extends AsyncDisposable {
 
 export interface DaprCliClient {
 	startDashboard(): Promise<DaprDashboard>;
+
 	version(): Promise<DaprVersion>;
+
 	stopApp(application: DaprApplication | undefined): void;
+
 	stopRun(runTemplatePath: string): Promise<void>;
 }
 

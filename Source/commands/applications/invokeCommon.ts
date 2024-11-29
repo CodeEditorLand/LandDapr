@@ -137,7 +137,9 @@ export async function getPayload(
 
 interface InvokeWizardContext {
 	application: DaprApplication;
+
 	method: string;
+
 	payload?: unknown;
 }
 

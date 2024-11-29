@@ -22,19 +22,24 @@ export default class DetailsTreeDataProvider
 	private readonly onDidChangeTreeDataEmitter = new vscode.EventEmitter<
 		TreeNode | null | undefined
 	>();
+
 	private readonly applicationProviderListener: Subscription;
+
 	private selectedItems: readonly TreeNode[] = [];
+
 	private details: DaprDetailItem[] = [];
 
 	constructor(applicationsSelection: Observable<readonly TreeNode[]>) {
 		super(() => {
 			this.applicationProviderListener.unsubscribe();
+
 			this.onDidChangeTreeDataEmitter.dispose();
 		});
 
 		this.applicationProviderListener = applicationsSelection.subscribe(
 			(selectedItems) => {
 				this.selectedItems = selectedItems;
+
 				this.onDidChangeTreeDataEmitter.fire(undefined);
 			},
 		);
@@ -132,5 +137,6 @@ export default class DetailsTreeDataProvider
 
 export interface DaprDetailItem {
 	label: string;
+
 	value: string;
 }

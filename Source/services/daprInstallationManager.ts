@@ -13,12 +13,14 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 export interface DaprInstallationManager {
 	ensureInstalled(context?: IErrorHandlingContext): Promise<void>;
+
 	ensureInstalledVersion(
 		cliVersion: string,
 		context?: IErrorHandlingContext,
 	): Promise<void>;
 
 	ensureInitialized(context?: IErrorHandlingContext): Promise<void>;
+
 	ensureInitializedVersion(
 		cliVersion: string,
 		runtimeVersion: string,
@@ -26,9 +28,11 @@ export interface DaprInstallationManager {
 	): Promise<void>;
 
 	isInstalled(): Promise<boolean>;
+
 	isVersionInstalled(cliVersion: string): Promise<boolean>;
 
 	isInitialized(): Promise<boolean>;
+
 	isVersionInitialized(
 		cliVersion: string,
 		runtimeVersion: string,
@@ -55,6 +59,7 @@ export default class LocalDaprInstallationManager
 	implements DaprInstallationManager
 {
 	private readonly satisfiedCliVersions = new Set<string>();
+
 	private readonly satisfiedRuntimeVersions = new Set<string>();
 
 	constructor(

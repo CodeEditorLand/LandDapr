@@ -16,37 +16,69 @@ import { TaskDefinition } from "./taskDefinition";
 
 export interface DaprTaskDefinition extends TaskDefinition {
 	appChannelAddress?: string;
+
 	appHealthCheckPath?: string;
+
 	appHealthProbeInterval?: number;
+
 	appHealthProbeTimeout?: number;
+
 	appHealthThreshold?: number;
+
 	appId?: string;
+
 	appMaxConcurrency?: number;
+
 	appPort?: number;
+
 	appProtocol?: "grpc" | "http";
+
 	appSsl?: boolean;
+
 	args?: string[];
+
 	command?: string[];
+
 	componentsPath?: string;
+
 	config?: string;
+
 	cwd?: string;
+
 	enableApiLogging?: boolean;
+
 	enableHealthCheck?: boolean;
+
 	enableProfiling?: boolean;
+
 	grpcPort?: number;
+
 	httpMaxRequestSize?: number;
+
 	httpPort?: number;
+
 	httpReadBufferSize?: number;
+
 	internalGrpcPort?: number;
+
 	listenAddresses?: string;
+
 	logLevel?: "debug" | "info" | "warn" | "error" | "fatal" | "panic";
+
 	metricsPort?: number;
+
 	placementHostAddress?: string;
+
 	profilePort?: number;
+
 	resourcesPath?: string;
+
 	resourcesPaths?: string[];
+
 	runFile?: string;
+
 	type: "dapr";
+
 	unixDomainSocket?: string;
 }
 

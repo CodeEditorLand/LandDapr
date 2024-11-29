@@ -54,6 +54,7 @@ export default class DaprComponentsNode implements TreeNode {
 				(comp) => new DaprComponentMetadataNode(comp, "database"),
 			);
 		}
+
 		return [new DaprDetailsNode(label, "")];
 	}
 }

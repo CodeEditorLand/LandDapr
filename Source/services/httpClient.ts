@@ -6,7 +6,9 @@ import * as vscode from "vscode";
 
 export interface HttpResponse {
 	data: unknown;
+
 	headers: { [key: string]: string };
+
 	status: number;
 }
 
@@ -24,6 +26,7 @@ export interface HttpClient {
 		options?: HttpOptions,
 		token?: vscode.CancellationToken,
 	): Promise<HttpResponse>;
+
 	post(
 		url: string,
 		data?: unknown,
@@ -42,6 +45,7 @@ function createConfig(
 
 	if (allowRedirects === false) {
 		config.maxRedirects = 0;
+
 		config.validateStatus = (status: number): boolean =>
 			status >= 200 && status < 400;
 	}

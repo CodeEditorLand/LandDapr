@@ -36,8 +36,11 @@ interface ScaffoldTelemetryProperties extends TelemetryProperties {
 
 interface ScaffoldWizardContext {
 	appId: string;
+
 	appPort: number;
+
 	configuration: DebugConfiguration;
+
 	folder: vscode.WorkspaceFolder;
 }
 
@@ -55,6 +58,7 @@ const NodePort = 3000;
 
 interface DotNetProfile {
 	commandName?: string;
+
 	applicationUrl?: string;
 }
 

@@ -17,7 +17,10 @@ export interface Options {
 
 export interface TaskDefinition extends vscode.TaskDefinition {
 	cwd?: string;
+
 	options?: Options;
+
 	dependsOn?: string | string[] | DependsOn;
+
 	label?: string;
 }

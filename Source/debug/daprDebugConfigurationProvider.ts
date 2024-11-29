@@ -20,7 +20,9 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 export interface DaprDebugConfiguration extends vscode.DebugConfiguration {
 	excludeApps?: string[];
+
 	includeApps?: string[];
+
 	runFile: string;
 }
 

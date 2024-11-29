@@ -15,13 +15,20 @@ import { Process } from "../util/process";
 
 export interface DaprApplication {
 	appId: string;
+
 	appPid?: number; // Available only for v1.10+
 	command: string;
+
 	httpPort: number;
+
 	pid: number;
+
 	grpcPort: number;
+
 	appPort: number | undefined;
+
 	ppid: number | undefined;
+
 	runTemplatePath?: string; // Avaliable only for v1.10+
 }
 
@@ -31,18 +38,30 @@ export interface DaprApplicationProvider {
 
 interface DaprListApplication {
 	appId: string;
+
 	appPid?: number; // Aavailable only for v1.10+
 	httpPort: number;
+
 	grpcPort: number;
+
 	appPort: number;
+
 	metricsEnabled: boolean;
+
 	command: string;
+
 	age: string;
+
 	created: string;
+
 	daprdPid: number;
+
 	cliPid: number;
+
 	maxRequestBodySize: number;
+
 	httpReadBufferSize: number;
+
 	runTemplatePath?: string; // Avaliable only for v1.10+
 }
 

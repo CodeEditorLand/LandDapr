@@ -24,7 +24,9 @@ export default class DaprApplicationTreeDataProvider
 	private readonly onDidChangeTreeDataEmitter = new vscode.EventEmitter<
 		TreeNode | null | undefined
 	>();
+
 	private readonly applicationProviderListener: Subscription;
+
 	private applications: DaprApplication[] = [];
 
 	constructor(
@@ -35,12 +37,14 @@ export default class DaprApplicationTreeDataProvider
 	) {
 		super(() => {
 			this.applicationProviderListener.unsubscribe();
+
 			this.onDidChangeTreeDataEmitter.dispose();
 		});
 
 		this.applicationProviderListener =
 			this.applicationProvider.applications.subscribe((applications) => {
 				this.applications = applications;
+
 				this.onDidChangeTreeDataEmitter.fire(undefined);
 			});
 	}
@@ -102,6 +106,7 @@ export default class DaprApplicationTreeDataProvider
 		const runs: {
 			[key: string]: {
 				applications: DaprApplication[];
+
 				runTemplatePath: string;
 			};
 		} = {};

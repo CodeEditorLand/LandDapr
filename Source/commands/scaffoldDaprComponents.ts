@@ -49,6 +49,7 @@ async function scaffoldDaprComponents(
 		componentsPath,
 		onConflict,
 	);
+
 	await scaffoldPubSubComponent(
 		scaffolder,
 		templateScaffolder,

@@ -5,6 +5,7 @@ import * as vscode from "vscode";
 
 export interface SettingsProvider {
 	readonly daprPath: string;
+
 	readonly daprdPath: string;
 }
 

@@ -16,44 +16,83 @@ type DaprdLogLevel = "debug" | "info" | "warn" | "error" | "fatal" | "panic";
 
 export interface DaprdTaskDefinition extends TaskDefinition {
 	allowedOrigins?: string;
+
 	appChannelAddress?: string;
+
 	appHealthCheckPath?: string;
+
 	appHealthProbeInterval?: number;
+
 	appHealthProbeTimeout?: number;
+
 	appHealthThreshold?: number;
+
 	appId?: string;
+
 	appMaxConcurrency?: number;
+
 	appPort?: number;
+
 	appProtocol?: "grpc" | "http";
+
 	appSsl?: boolean;
+
 	args?: string[];
+
 	componentsPath?: string;
+
 	config?: string;
+
 	controlPlaneAddress?: string;
+
 	enableApiLogging?: boolean;
+
 	enableHealthCheck?: boolean;
+
 	enableMetrics?: boolean;
+
 	enableMtls?: boolean;
+
 	enableProfiling?: boolean;
+
 	gracefulShutdownSeconds?: number;
+
 	grpcPort?: number;
+
 	httpMaxRequestSize?: number;
+
 	httpPort?: number;
+
 	httpReadBufferSize?: number;
+
 	internalGrpcPort?: number;
+
 	kubeConfig?: string;
+
 	listenAddresses?: string;
+
 	logAsJson?: boolean;
+
 	logLevel?: DaprdLogLevel;
+
 	metricsPort?: number;
+
 	mode?: "standalone" | "kubernetes";
+
 	placementHostAddress?: string;
+
 	profilePort?: number;
+
 	publicPort?: number;
+
 	resourcesPath?: string;
+
 	resourcesPaths?: string[];
+
 	sentryAddress?: string;
+
 	type: "daprd";
+
 	unixDomainSocket?: string;
 }
 

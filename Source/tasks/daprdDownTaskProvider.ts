@@ -14,6 +14,7 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 export interface DaprdDownTaskDefinition extends TaskDefinition {
 	appId?: string;
+
 	type: "daprd-down";
 }
 

@@ -16,6 +16,7 @@ export default class Timer {
 		return new vscode.Disposable(() => {
 			if (timer) {
 				clearInterval(timer);
+
 				timer = undefined;
 			}
 		});

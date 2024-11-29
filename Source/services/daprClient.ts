@@ -17,12 +17,14 @@ export interface DaprClient {
 		method: string,
 		token?: vscode.CancellationToken,
 	): Promise<unknown>;
+
 	invokePost(
 		application: DaprApplication,
 		method: string,
 		payload?: unknown,
 		token?: vscode.CancellationToken,
 	): Promise<unknown>;
+
 	publishMessage(
 		application: DaprApplication,
 		pubSubName: string,
@@ -141,6 +143,8 @@ export interface DaprMetadata {
 
 export interface DaprComponentMetadata {
 	name: string;
+
 	type: string;
+
 	version: string;
 }

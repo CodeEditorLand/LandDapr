@@ -75,7 +75,9 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 	}
 
 	ext.context = context;
+
 	ext.ignoreBundle = true;
+
 	ext.outputChannel = registerDisposable(
 		createAzExtOutputChannel("Dapr", "dapr"),
 	);
@@ -141,10 +143,12 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 				"vscode-dapr.applications.browse",
 				createBrowseToApplicationCommand(ui),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.applications.debug",
 				createDebugApplicationCommand(),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.applications.invoke-get",
 				createInvokeGetCommand(
@@ -155,6 +159,7 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 					context.workspaceState,
 				),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.applications.invoke-post",
 				createInvokePostCommand(
@@ -165,6 +170,7 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 					context.workspaceState,
 				),
 			);
+
 			telemetryProvider.registerCommandWithTelemetry(
 				"vscode-dapr.applications.publish-all-message",
 				createPublishAllMessageCommand(
@@ -175,6 +181,7 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 					context.workspaceState,
 				),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.applications.publish-message",
 				createPublishMessageCommand(
@@ -185,50 +192,62 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 					context.workspaceState,
 				),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.applications.stop-app",
 				createStopCommand(daprCliClient, ui),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.applications.view-app-logs",
 				createViewAppLogsCommand(),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.applications.view-dapr-logs",
 				createViewDaprLogsCommand(),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.help.readDocumentation",
 				createReadDocumentationCommand(ui),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.help.getStarted",
 				createGetStartedCommand(ui),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.help.installDapr",
 				createInstallDaprCommand(ui),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.help.reportIssue",
 				createReportIssueCommand(ui),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.help.reviewIssues",
 				createReviewIssuesCommand(ui),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.runs.debug",
 				createDebugRunCommand(),
 			);
+
 			telemetryProvider.registerCommandWithTelemetry(
 				"vscode-dapr.runs.start",
 				createStartRunCommand(daprCommandTaskProvider),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.runs.stop",
 				createStopRunCommand(daprCliClient),
 			);
+
 			telemetryProvider.registerCommandWithTelemetry(
 				"vscode-dapr.tasks.scaffoldDaprComponents",
 				createScaffoldDaprComponentsCommand(
@@ -236,6 +255,7 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 					templateScaffolder,
 				),
 			);
+
 			telemetryProvider.registerCommandWithTelemetry(
 				"vscode-dapr.tasks.scaffoldDaprTasks",
 				createScaffoldDaprTasksCommand(
@@ -244,6 +264,7 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 					ui,
 				),
 			);
+
 			telemetryProvider.registerContextCommandWithTelemetry(
 				"vscode-dapr.tasks.openDaprDashboard",
 				createOpenDaprDashboardCommand(daprDashboardProvider),
@@ -255,6 +276,7 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 					daprCommandTaskProvider,
 				),
 			);
+
 			registerDisposable(
 				vscode.tasks.registerTaskProvider(
 					"daprd",
@@ -266,6 +288,7 @@ export function activate(context: vscode.ExtensionContext): Promise<void> {
 					),
 				),
 			);
+
 			registerDisposable(
 				vscode.tasks.registerTaskProvider(
 					"daprd-down",

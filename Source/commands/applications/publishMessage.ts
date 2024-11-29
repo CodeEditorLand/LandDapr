@@ -95,8 +95,11 @@ export async function getTopic(
 
 interface PublishWizardContext {
 	application: DaprApplication;
+
 	pubSubName: string;
+
 	topic: string;
+
 	payload?: unknown;
 }
 

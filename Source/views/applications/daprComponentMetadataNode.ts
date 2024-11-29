@@ -16,6 +16,7 @@ export default class DaprComponentMetadataNode implements TreeNode {
 		const item = new vscode.TreeItem(this.daprComponentMetadata.name);
 
 		item.contextValue = "metadata";
+
 		item.iconPath = new vscode.ThemeIcon(this.themeIconId);
 
 		return Promise.resolve(item);

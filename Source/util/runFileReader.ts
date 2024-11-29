@@ -12,6 +12,7 @@ const localize = nls.loadMessageBundle(getLocalizationPathForFile(__filename));
 
 export interface DaprRunApplication {
 	appDirPath?: string;
+
 	appID?: string;
 }
 

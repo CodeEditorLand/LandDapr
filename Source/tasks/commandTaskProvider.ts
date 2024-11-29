@@ -72,6 +72,7 @@ export default class CommandTaskProvider extends CustomExecutionTaskProvider {
 								),
 								"bold",
 							);
+
 							writer.writeLine("");
 
 							await Process.spawn(command, spawnOptions, token);

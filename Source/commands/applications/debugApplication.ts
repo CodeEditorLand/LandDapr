@@ -90,6 +90,7 @@ function getAttachBehavior(
 			return () =>
 				attachToDotnetProcess(application, childProcesses[0].pid);
 		}
+
 		case "node":
 			return () => attachToNodeProcess(application, process.pid);
 
